@@ -1,0 +1,170 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+
+interface WorkCardProps {
+  title: string
+  category: string
+  year: string
+  bg?: string
+  featured?: boolean
+  href?: string
+  soon?: boolean
+}
+
+export default function WorkCard({
+  title,
+  category,
+  year,
+  bg = 'var(--forest)',
+  featured = false,
+  href = '#',
+  soon = false,
+}: WorkCardProps) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <Link
+      href={href}
+      data-cursor="card"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'block',
+        position: 'relative',
+        aspectRatio: featured ? '21/9' : '16/10',
+        overflow: 'hidden',
+        borderRadius: 0, // Sharp — editorial стиль
+        textDecoration: 'none',
+        color: 'var(--text-inverse)',
+        background: bg,
+      }}
+    >
+      {/* Фоновый градиент / заглушка */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: bg,
+          transform: hovered ? 'scale(1.05)' : 'scale(1)',
+          transition: 'transform 700ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+        }}
+      />
+
+      {/* Текстурный паттерн поверх фона */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage:
+            'radial-gradient(circle at 30% 70%, rgba(255,255,255,0.04) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(143,163,108,0.08) 0%, transparent 50%)',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Overlay при hover */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(29, 37, 18, 0.6)',
+          opacity: hovered ? 0.7 : 0,
+          transition: 'opacity 400ms ease',
+          zIndex: 2,
+        }}
+      />
+
+      {/* Иконка "+" по центру при hover */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 3,
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 300ms ease',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '48px',
+            fontWeight: 200,
+            color: 'var(--cream)',
+            lineHeight: 1,
+          }}
+        >
+          +
+        </span>
+      </div>
+
+      {/* Метка SOON */}
+      {soon && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '24px',
+            right: '24px',
+            padding: '6px 14px',
+            border: '1px solid rgba(244,237,230,0.3)',
+            borderRadius: '9999px',
+            fontSize: '11px',
+            fontWeight: 500,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'rgba(244,237,230,0.6)',
+            zIndex: 4,
+          }}
+        >
+          Скоро
+        </div>
+      )}
+
+      {/* Нижняя информация о проекте */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          padding: '24px 32px',
+          background:
+            'linear-gradient(to top, rgba(29,37,18,0.8) 0%, transparent 100%)',
+          zIndex: 4,
+          transform: hovered ? 'translateY(-8px)' : 'translateY(0)',
+          transition: 'transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+        }}
+      >
+        <h3
+          style={{
+            fontFamily: 'var(--font-hanken, sans-serif)',
+            fontSize: featured ? '32px' : '20px',
+            fontWeight: 700,
+            letterSpacing: '-0.01em',
+            marginBottom: '8px',
+          }}
+        >
+          {title}
+        </h3>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            fontSize: '13px',
+            fontWeight: 500,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            opacity: 0.6,
+          }}
+        >
+          <span>{category}</span>
+          <span style={{ opacity: 0.4 }}>—</span>
+          <span>{year}</span>
+        </div>
+      </div>
+    </Link>
+  )
+}

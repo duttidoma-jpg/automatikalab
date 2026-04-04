@@ -1,26 +1,249 @@
 @import "tailwindcss";
 
+/* ============================================================
+   CSS Custom Properties — AutomatikaLab Design System
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Цветовая палитра */
+  --cream: #F4EDE6;
+  --cream-dark: #EBE2D9;
+  --cream-light: #FAF6F2;
+  --forest: #2e3a1f;
+  --forest-light: #3d4e2a;
+  --forest-deep: #1d2512;
+  --sage: #8fa36c;
+  --sage-light: #a7bf85;
+  --sage-pale: #c8d9b0;
+  --sage-dark: #6b7d52;
+
+  /* Карамельный акцент — из hero-видео */
+  --caramel: #C4A882;
+  --caramel-light: #D8C0A0;
+  --caramel-dark: #A88A62;
+  --caramel-deep: #8C6E44;
+
+  /* Текст */
+  --text-primary: #1a1a18;
+  --text-secondary: #4a4a42;
+  --text-muted: #8a8a7e;
+  --text-inverse: #F4EDE6;
+  --text-accent: #8fa36c;
+
+  /* Служебные */
+  --border-light: #D8D0C8;
+  --border-dark: #3d4e2a;
+  --overlay-dark: rgba(46, 58, 31, 0.85);
+  --overlay-cream: rgba(244, 237, 230, 0.6);
+
+  /* Spacing */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-24: 96px;
+  --s-32: 128px;
+  --s-40: 160px;
+  --s-48: 192px;
+
+  /* Border radius */
+  --r-none: 0px;
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(46, 58, 31, 0.06);
+  --shadow-sm: 0 2px 8px rgba(46, 58, 31, 0.08);
+  --shadow-md: 0 8px 24px rgba(46, 58, 31, 0.12);
+  --shadow-lg: 0 24px 48px rgba(46, 58, 31, 0.16);
+  --shadow-xl: 0 40px 80px rgba(46, 58, 31, 0.20);
+  --shadow-glow: 0 0 40px rgba(143, 163, 108, 0.3);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================================
+   Базовые стили
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream);
+  color: var(--text-primary);
+  font-family: var(--font-inter, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Кастомный cursor — скрываем системный на desktop */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Выделение текста */
+::selection {
+  background: var(--sage);
+  color: var(--forest);
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sage);
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Типографические утилиты
+   ============================================================ */
+.font-headline {
+  font-family: var(--font-hanken, 'Hanken Grotesk', sans-serif);
+}
+
+.display-xl {
+  font-family: var(--font-hanken, 'Hanken Grotesk', sans-serif);
+  font-size: clamp(80px, 10vw, 160px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+}
+
+.display-lg {
+  font-family: var(--font-hanken, 'Hanken Grotesk', sans-serif);
+  font-size: clamp(60px, 8vw, 120px);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+}
+
+.display-md {
+  font-family: var(--font-hanken, 'Hanken Grotesk', sans-serif);
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.display-sm {
+  font-family: var(--font-hanken, 'Hanken Grotesk', sans-serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.body-xl {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.body-lg {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.body-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.label-lg {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.label-md {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Утилиты контейнера
+   ============================================================ */
+.container-xl {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 120px);
+}
+
+/* ============================================================
+   Кнопки
+   ============================================================ */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border: 1px solid var(--sage);
+  border-radius: var(--r-full);
+  color: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  background: transparent;
+  transition: background 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-ghost:hover {
+  background: var(--sage);
+  color: var(--forest);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 48px;
+  background: var(--sage);
+  color: var(--forest);
+  border: none;
+  border-radius: var(--r-full);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background 300ms ease, transform 300ms ease;
+}
+
+.btn-primary:hover {
+  background: var(--sage-light);
+  transform: translateY(-2px);
 }

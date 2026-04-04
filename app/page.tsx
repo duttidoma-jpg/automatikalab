@@ -1,65 +1,394 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useEffect, useRef } from 'react'
+import Link from 'next/link'
+import HeroSection from '@/components/HeroSection'
+import WorkCard from '@/components/WorkCard'
+import ProcessSection from '@/components/ProcessSection'
+
+export default function HomePage() {
+  const pageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    let ctx: { revert: () => void } = { revert: () => {} }
+
+    const init = async () => {
+      const { gsap } = await import('gsap')
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+      gsap.registerPlugin(ScrollTrigger)
+
+      const gctx = gsap.context(() => {
+        // Манифест
+        gsap.fromTo(
+          '.manifest-line',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power2.out',
+            scrollTrigger: { trigger: '.manifest-section', start: 'top 78%', once: true },
+          }
+        )
+
+        // Заголовок работ
+        gsap.fromTo(
+          '.works-header',
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+            scrollTrigger: { trigger: '.works-section', start: 'top 80%', once: true },
+          }
+        )
+
+        // Карточки
+        gsap.fromTo(
+          '.works-preview-card',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out',
+            scrollTrigger: { trigger: '.works-grid', start: 'top 82%', once: true },
+          }
+        )
+
+        // Финальный CTA
+        gsap.fromTo(
+          '.final-cta',
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+            scrollTrigger: { trigger: '.final-cta', start: 'top 88%', once: true },
+          }
+        )
+      }, pageRef)
+
+      ctx.revert = () => {
+        gctx.revert()
+        ScrollTrigger.getAll().forEach((t) => t.kill())
+      }
+    }
+
+    init()
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div ref={pageRef}>
+      {/* HERO */}
+      <HeroSection />
+
+      {/* МАНИФЕСТ */}
+      <section
+        className="manifest-section"
+        style={{
+          background: 'var(--forest)',
+          color: 'var(--text-inverse)',
+          padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 120px)',
+        }}
+      >
+        <p
+          className="manifest-line"
+          style={{
+            fontFamily: 'var(--font-inter)',
+            fontSize: '13px',
+            fontWeight: 500,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'var(--sage)',
+            marginBottom: '48px',
+          }}
+        >
+          Наш манифест
+        </p>
+
+        <div>
+          <span
+            className="manifest-line"
+            style={{
+              display: 'block',
+              fontFamily: 'var(--font-hanken)',
+              fontSize: 'clamp(36px, 5vw, 72px)',
+              fontWeight: 800,
+              lineHeight: 1.05,
+              letterSpacing: '-0.03em',
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Будущее — не страшно.
+          </span>
+          <span
+            className="manifest-line"
+            style={{
+              display: 'block',
+              fontFamily: 'var(--font-hanken)',
+              fontSize: 'clamp(36px, 5vw, 72px)',
+              fontWeight: 800,
+              lineHeight: 1.05,
+              letterSpacing: '-0.03em',
+              fontStyle: 'italic',
+              color: 'var(--sage-light)',
+            }}
           >
-            Documentation
-          </a>
+            Мы проведём за руку.
+          </span>
         </div>
-      </main>
+
+        <p
+          className="manifest-line"
+          style={{
+            fontFamily: 'var(--font-inter)',
+            fontSize: 'clamp(15px, 1.4vw, 19px)',
+            lineHeight: 1.65,
+            opacity: 0.62,
+            maxWidth: '540px',
+            marginTop: '40px',
+          }}
+        >
+          Автоматизация — это не технология ради технологии.
+          Это конкурентное преимущество, которое работает прямо сейчас,
+          пока другие ещё принимают решение.
+        </p>
+      </section>
+
+      {/* КАК МЫ РАБОТАЕМ — pinned scroll-driven секция */}
+      <ProcessSection />
+
+      {/* ТЕХНОЛОГИИ — агентная автоматизация */}
+      <section
+        style={{
+          background: 'var(--forest)',
+          padding: 'clamp(80px, 10vh, 128px) clamp(24px, 5vw, 120px)',
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 'clamp(48px, 6vw, 96px)',
+            alignItems: 'center',
+          }}
+        >
+          <div>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--sage)',
+                marginBottom: '24px',
+              }}
+            >
+              Технологии
+            </p>
+            <h2
+              style={{
+                fontFamily: 'var(--font-hanken)',
+                fontSize: 'clamp(32px, 4vw, 56px)',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.05,
+                color: 'var(--text-inverse)',
+                marginBottom: '28px',
+              }}
+            >
+              Автоматизация внутри нашей автоматизации
+            </h2>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: 'clamp(15px, 1.3vw, 18px)',
+                lineHeight: 1.7,
+                color: 'var(--text-inverse)',
+                opacity: 0.65,
+                maxWidth: '480px',
+              }}
+            >
+              Мы используем AI-агентов в собственном процессе разработки.
+              Это не маркетинг — это то, как мы работаем каждый день.
+              Быстрее, точнее, без потери в качестве.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            {[
+              { label: 'Агентный пайплайн', desc: 'Каждый проект проходит через систему специализированных AI-агентов — от брифа до деплоя' },
+              { label: 'Параллельная разработка', desc: 'Дизайн, бэкенд и фронтенд строятся одновременно. Мы не ждём — мы делаем' },
+              { label: 'Автоматическое тестирование', desc: 'Проверка качества встроена в процесс, а не добавлена в конце' },
+              { label: 'Живые инструменты', desc: 'Claude, GPT-4, Higgsfield, GSAP — мы работаем с тем, что даёт результат сегодня' },
+            ].map((item) => (
+              <div
+                key={item.label}
+                style={{
+                  padding: '20px 24px',
+                  borderTop: '1px solid rgba(244,237,230,0.08)',
+                  display: 'grid',
+                  gridTemplateColumns: '180px 1fr',
+                  gap: '24px',
+                  alignItems: 'start',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    color: 'var(--sage)',
+                    letterSpacing: '0.01em',
+                    paddingTop: '2px',
+                  }}
+                >
+                  {item.label}
+                </span>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: '13px',
+                    lineHeight: 1.6,
+                    color: 'var(--text-inverse)',
+                    opacity: 0.55,
+                  }}
+                >
+                  {item.desc}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ИЗБРАННЫЕ РАБОТЫ */}
+      <section
+        className="works-section"
+        style={{
+          background: 'var(--cream)',
+          padding: 'clamp(80px, 10vh, 128px) clamp(24px, 5vw, 120px)',
+        }}
+      >
+        <div
+          className="works-header"
+          style={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            marginBottom: '48px',
+            flexWrap: 'wrap',
+            gap: '24px',
+          }}
+        >
+          <div>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--sage)',
+                marginBottom: '12px',
+              }}
+            >
+              Избранные работы
+            </p>
+            <h2
+              style={{
+                fontFamily: 'var(--font-hanken)',
+                fontSize: 'clamp(28px, 4vw, 52px)',
+                fontWeight: 700,
+                letterSpacing: '-0.02em',
+                color: 'var(--text-primary)',
+                lineHeight: 1.1,
+              }}
+            >
+              Проекты которые<br />говорят сами за себя
+            </h2>
+          </div>
+          <Link
+            href="/work"
+            style={{
+              fontFamily: 'var(--font-inter)',
+              fontSize: '15px',
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+              textDecoration: 'none',
+              borderBottom: '1px solid var(--border-light)',
+              paddingBottom: '2px',
+              transition: 'border-color 200ms ease, color 200ms ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--sage)'
+              e.currentTarget.style.color = 'var(--sage)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-light)'
+              e.currentTarget.style.color = 'var(--text-primary)'
+            }}
+          >
+            Все работы →
+          </Link>
+        </div>
+
+        <div className="works-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
+          <div className="works-preview-card">
+            <WorkCard title="Атмосфера Фудкорт" category="Сайт + Автоматизация" year="2024" bg="var(--forest)" featured />
+          </div>
+          <div className="works-preview-card">
+            <WorkCard title="Office Assistant" category="AI-ассистент" year="2025" bg="var(--forest-light)" featured />
+          </div>
+        </div>
+      </section>
+
+      {/* ФИНАЛЬНЫЙ CTA */}
+      <section
+        className="final-cta"
+        style={{
+          background: 'var(--cream)',
+          padding: 'clamp(60px, 8vh, 96px) clamp(24px, 5vw, 120px)',
+          borderTop: '1px solid var(--border-light)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '32px',
+        }}
+      >
+        <p
+          style={{
+            fontFamily: 'var(--font-hanken)',
+            fontSize: 'clamp(22px, 3vw, 40px)',
+            fontWeight: 700,
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+            lineHeight: 1.2,
+          }}
+        >
+          Готовы автоматизировать<br />ваш бизнес?
+        </p>
+        <Link
+          href="/contact"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '18px 48px',
+            background: 'var(--sage)',
+            color: 'var(--forest)',
+            borderRadius: '9999px',
+            fontFamily: 'var(--font-inter)',
+            fontSize: '15px',
+            fontWeight: 600,
+            letterSpacing: '0.02em',
+            textDecoration: 'none',
+            transition: 'background 300ms ease, transform 200ms ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'var(--sage-dark)'
+            e.currentTarget.style.transform = 'scale(1.02)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--sage)'
+            e.currentTarget.style.transform = 'scale(1)'
+          }}
+        >
+          Начать проект
+        </Link>
+      </section>
     </div>
-  );
+  )
 }
