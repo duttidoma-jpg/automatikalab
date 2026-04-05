@@ -8,27 +8,40 @@ export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const video2Ref = useRef<HTMLVideoElement>(null)
 
-  // Seamless video loop: два видео, плавный кросс-фейд
+  // Видео: мобильный — простой loop, десктоп — кросс-фейд между двумя видео
   useEffect(() => {
     const v1 = videoRef.current
     const v2 = video2Ref.current
     if (!v1 || !v2) return
 
-    const FADE_DURATION = 1200 // ms до конца — начинаем фейд
+    const isMobile = window.innerWidth <= 768
+
+    if (isMobile) {
+      // iOS Safari: один тег с loop, второй скрыт
+      // ended → перезапускаем вручную (надёжнее чем loop на iOS)
+      v2.style.display = 'none'
+      const handleEnded = () => {
+        v1.currentTime = 0
+        v1.play().catch(() => {})
+      }
+      v1.addEventListener('ended', handleEnded)
+      v1.play().catch(() => {})
+      return () => v1.removeEventListener('ended', handleEnded)
+    }
+
+    // Desktop: seamless crossfade между двумя видео
+    const FADE_DURATION = 1200
     let rafId: number
     let fading = false
 
     const checkFade = () => {
       if (!v1.duration || v1.paused) { rafId = requestAnimationFrame(checkFade); return }
       const remaining = (v1.duration - v1.currentTime) * 1000
-
       if (remaining <= FADE_DURATION && !fading) {
         fading = true
-        // Запускаем v2 заранее и фейдим
         v2.currentTime = 0
         v2.style.opacity = '0'
         v2.play().catch(() => {})
-
         const start = performance.now()
         const fade = (now: number) => {
           const t = Math.min((now - start) / FADE_DURATION, 1)
@@ -36,13 +49,11 @@ export default function HeroSection() {
           v2.style.opacity = String(t)
           if (t < 1) { requestAnimationFrame(fade) }
           else {
-            // v2 стал главным — меняем роли
             v1.style.opacity = '0'
             v2.style.opacity = '1'
             v1.currentTime = 0
             v1.pause()
             fading = false
-            // Теперь отслеживаем v2
             startWatching(v2, v1)
           }
         }
@@ -54,7 +65,6 @@ export default function HeroSection() {
     const startWatching = (active: HTMLVideoElement, standby: HTMLVideoElement) => {
       cancelAnimationFrame(rafId)
       let f = false
-
       const watch = () => {
         if (!active.duration || active.paused) { requestAnimationFrame(watch); return }
         const rem = (active.duration - active.currentTime) * 1000
@@ -63,7 +73,6 @@ export default function HeroSection() {
           standby.currentTime = 0
           standby.style.opacity = '0'
           standby.play().catch(() => {})
-
           const s = performance.now()
           const doFade = (now: number) => {
             const t = Math.min((now - s) / FADE_DURATION, 1)
@@ -88,7 +97,6 @@ export default function HeroSection() {
 
     v1.play().catch(() => {})
     rafId = requestAnimationFrame(checkFade)
-
     return () => cancelAnimationFrame(rafId)
   }, [])
 

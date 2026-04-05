@@ -35,132 +35,210 @@ const steps = [
   },
 ]
 
-// ─── Мобильная версия — статичный стек ─────────────────────────────────────
+// ─── Мобильная версия — анимированная карусель ──────────────────────────────
 function ProcessMobile() {
+  const [active, setActive] = useState(0)
+  const [animating, setAnimating] = useState(false)
+  const [direction, setDirection] = useState<'next' | 'prev'>('next')
+  const trackRef = useRef<HTMLDivElement>(null)
+  const startXRef = useRef<number | null>(null)
+
+  const goTo = (idx: number, dir: 'next' | 'prev') => {
+    if (animating || idx === active) return
+    setDirection(dir)
+    setAnimating(true)
+    setTimeout(() => {
+      setActive(idx)
+      setAnimating(false)
+    }, 320)
+  }
+
+  const next = () => { if (active < steps.length - 1) goTo(active + 1, 'next') }
+  const prev = () => { if (active > 0) goTo(active - 1, 'prev') }
+
+  // Swipe поддержка
+  const onTouchStart = (e: React.TouchEvent) => {
+    startXRef.current = e.touches[0].clientX
+  }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (startXRef.current === null) return
+    const dx = e.changedTouches[0].clientX - startXRef.current
+    if (dx < -50) next()
+    else if (dx > 50) prev()
+    startXRef.current = null
+  }
+
+  const step = steps[active]
+  const slideOffset = animating
+    ? direction === 'next' ? '-60px' : '60px'
+    : '0px'
+
   return (
     <section
       className="process-mobile"
       style={{
         background: 'var(--caramel)',
-        padding: 'clamp(56px, 8vh, 88px) clamp(24px, 5vw, 48px) clamp(48px, 6vh, 72px)',
+        padding: 'clamp(56px, 8vh, 72px) clamp(24px, 5vw, 40px) clamp(40px, 5vh, 56px)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
+      {/* Атмосферный оверлей */}
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: 'radial-gradient(ellipse 80% 60% at 20% 70%, rgba(140,110,68,0.2) 0%, transparent 65%)',
+      }} />
+
       {/* Шапка */}
-      <div style={{ marginBottom: '40px' }}>
+      <div style={{ marginBottom: '32px', position: 'relative', zIndex: 1 }}>
         <p style={{
-          fontFamily: 'var(--font-inter)',
-          fontSize: '11px',
-          fontWeight: 500,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'var(--caramel-deep)',
-          opacity: 0.8,
-          marginBottom: '12px',
+          fontFamily: 'var(--font-inter)', fontSize: '11px', fontWeight: 500,
+          letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: 'var(--caramel-deep)', opacity: 0.8, marginBottom: '10px',
         }}>
           Процесс
         </p>
         <h2 style={{
-          fontFamily: 'var(--font-hanken)',
-          fontSize: 'clamp(26px, 7vw, 40px)',
-          fontWeight: 800,
-          letterSpacing: '-0.03em',
-          lineHeight: 1.05,
-          color: 'var(--forest)',
+          fontFamily: 'var(--font-hanken)', fontSize: 'clamp(24px, 7vw, 36px)',
+          fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05, color: 'var(--forest)',
         }}>
           Как происходит<br />работа с нами
         </h2>
       </div>
 
-      {/* Шаги */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-        {steps.map((step, i) => (
-          <div
-            key={step.num}
+      {/* Прогресс-точки */}
+      <div style={{
+        display: 'flex', gap: '8px', marginBottom: '32px',
+        position: 'relative', zIndex: 1,
+      }}>
+        {steps.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i, i > active ? 'next' : 'prev')}
             style={{
-              paddingTop: '28px',
-              paddingBottom: '28px',
-              borderTop: '1px solid rgba(46,58,31,0.12)',
+              width: i === active ? '28px' : '8px',
+              height: '8px',
+              borderRadius: '4px',
+              background: i === active ? 'var(--caramel-deep)' : 'rgba(46,58,31,0.2)',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'width 300ms ease, background 300ms ease',
             }}
-          >
-            {/* Номер + заголовок в строку */}
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', marginBottom: '12px' }}>
-              <span style={{
-                fontFamily: 'var(--font-hanken)',
-                fontSize: '13px',
-                fontWeight: 600,
-                color: 'var(--caramel-deep)',
-                opacity: 0.6,
-                letterSpacing: '0.04em',
-                flexShrink: 0,
-              }}>
-                {step.num}
-              </span>
-              <h3 style={{
-                fontFamily: 'var(--font-hanken)',
-                fontSize: 'clamp(22px, 6vw, 32px)',
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
-                lineHeight: 1.1,
-                color: 'var(--forest)',
-              }}>
-                {step.title}
-              </h3>
-            </div>
-
-            <p style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '15px',
-              lineHeight: 1.65,
-              color: 'var(--forest)',
-              opacity: 0.65,
-              marginBottom: '16px',
-            }}>
-              {step.text}
-            </p>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-              <span style={{
-                display: 'inline-block',
-                fontFamily: 'var(--font-inter)',
-                fontSize: '11px',
-                fontWeight: 500,
-                letterSpacing: '0.06em',
-                color: 'var(--forest)',
-                padding: '5px 12px',
-                border: '1px solid rgba(46,58,31,0.25)',
-                borderRadius: '9999px',
-              }}>
-                {step.timing}
-              </span>
-              <p style={{
-                fontFamily: 'var(--font-inter)',
-                fontSize: '12px',
-                color: 'var(--forest)',
-                opacity: 0.4,
-                fontStyle: 'italic',
-              }}>
-                {step.hint}
-              </p>
-            </div>
-
-            {/* Линия прогресса */}
-            <div style={{
-              marginTop: '20px',
-              height: '2px',
-              background: 'rgba(46,58,31,0.08)',
-              borderRadius: '1px',
-              overflow: 'hidden',
-            }}>
-              <div style={{
-                height: '100%',
-                width: `${((i + 1) / steps.length) * 100}%`,
-                background: 'var(--caramel-deep)',
-                opacity: 0.5,
-                borderRadius: '1px',
-              }} />
-            </div>
-          </div>
+          />
         ))}
+      </div>
+
+      {/* Карточка шага — анимированная */}
+      <div
+        ref={trackRef}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        style={{
+          position: 'relative', zIndex: 1,
+          opacity: animating ? 0 : 1,
+          transform: `translateX(${slideOffset})`,
+          transition: animating
+            ? 'opacity 280ms ease, transform 280ms ease'
+            : 'opacity 300ms ease, transform 300ms ease',
+        }}
+      >
+        {/* Большой декоративный номер */}
+        <div style={{
+          fontFamily: 'var(--font-hanken)',
+          fontSize: 'clamp(80px, 28vw, 160px)',
+          fontWeight: 800, lineHeight: 0.85,
+          color: 'var(--forest)', opacity: 0.07,
+          letterSpacing: '-0.05em', userSelect: 'none',
+          marginBottom: '-12px',
+        }}>
+          {step.num}
+        </div>
+
+        {/* Заголовок */}
+        <h3 style={{
+          fontFamily: 'var(--font-hanken)',
+          fontSize: 'clamp(32px, 9vw, 52px)',
+          fontWeight: 700, letterSpacing: '-0.03em',
+          lineHeight: 1.05, color: 'var(--forest)',
+          marginBottom: '16px',
+        }}>
+          {step.title}
+        </h3>
+
+        {/* Описание */}
+        <p style={{
+          fontFamily: 'var(--font-inter)', fontSize: '16px',
+          lineHeight: 1.7, color: 'var(--forest)', opacity: 0.65,
+          marginBottom: '24px',
+        }}>
+          {step.text}
+        </p>
+
+        {/* Тайминг + хинт */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
+          <span style={{
+            display: 'inline-block', fontFamily: 'var(--font-inter)',
+            fontSize: '12px', fontWeight: 500, letterSpacing: '0.06em',
+            color: 'var(--forest)', padding: '6px 16px',
+            border: '1px solid rgba(46,58,31,0.3)', borderRadius: '9999px',
+          }}>
+            {step.timing}
+          </span>
+          <span style={{
+            fontFamily: 'var(--font-inter)', fontSize: '12px',
+            color: 'var(--forest)', opacity: 0.4, fontStyle: 'italic',
+          }}>
+            {step.hint}
+          </span>
+        </div>
+      </div>
+
+      {/* Кнопки навигации */}
+      <div style={{
+        display: 'flex', gap: '12px', position: 'relative', zIndex: 1,
+      }}>
+        <button
+          onClick={prev}
+          disabled={active === 0}
+          style={{
+            width: '48px', height: '48px', borderRadius: '50%',
+            border: '1px solid rgba(46,58,31,0.25)', background: 'transparent',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: active === 0 ? 'default' : 'pointer',
+            opacity: active === 0 ? 0.3 : 1,
+            transition: 'opacity 200ms ease',
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8l5 5" stroke="var(--forest)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        <button
+          onClick={next}
+          disabled={active === steps.length - 1}
+          style={{
+            width: '48px', height: '48px', borderRadius: '50%',
+            border: '1px solid rgba(46,58,31,0.25)',
+            background: active === steps.length - 1 ? 'transparent' : 'var(--caramel-deep)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: active === steps.length - 1 ? 'default' : 'pointer',
+            opacity: active === steps.length - 1 ? 0.3 : 1,
+            transition: 'opacity 200ms ease, background 200ms ease',
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3l5 5-5 5" stroke={active === steps.length - 1 ? 'var(--forest)' : 'var(--cream)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        <span style={{
+          fontFamily: 'var(--font-inter)', fontSize: '12px',
+          color: 'var(--forest)', opacity: 0.35,
+          alignSelf: 'center', marginLeft: '4px',
+          letterSpacing: '0.04em',
+        }}>
+          {active + 1} / {steps.length}
+        </span>
       </div>
     </section>
   )

@@ -31,33 +31,6 @@ export default function AboutPage() {
           )
         })
 
-        // Counter-up анимация для цифр
-        const counters: { el: HTMLElement; target: number; suffix: string; prefix: string }[] = []
-        document.querySelectorAll<HTMLElement>('.stat-number').forEach((el) => {
-          const raw = el.dataset.value ?? el.textContent ?? ''
-          const match = raw.match(/^(\D*?)([\d.]+)(.*)$/)
-          if (!match) return
-          const [, pre, num, suf] = match
-          counters.push({ el, target: parseFloat(num), suffix: suf, prefix: pre })
-          el.textContent = pre + '0' + suf
-        })
-
-        counters.forEach(({ el, target, suffix, prefix }) => {
-          const proxy = { val: 0 }
-          gsap.to(proxy, {
-            val: target,
-            duration: 1.6,
-            ease: 'power2.out',
-            onUpdate() {
-              el.textContent = prefix + Math.round(proxy.val) + suffix
-            },
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 85%',
-              once: true,
-            },
-          })
-        })
       })
 
       ctx.revert = () => {
@@ -341,64 +314,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ЦИФРЫ */}
-      <section
-        style={{
-          background: 'var(--forest)',
-          padding: 'clamp(64px, 8vh, 96px) clamp(24px, 5vw, 120px)',
-        }}
-      >
-        <div
-          className="resp-grid-3"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '2px',
-          }}
-        >
-          {[
-            { value: '30+', dataValue: '30+', label: 'Проектов запущено' },
-            { value: '98%', dataValue: '98%', label: 'Клиентов рекомендуют нас' },
-            { value: '3–7', dataValue: '3–7', label: 'Дней до первой версии' },
-          ].map((stat) => (
-            <div
-              key={stat.value}
-              className="about-block"
-              style={{
-                padding: 'clamp(32px, 4vw, 48px)',
-                borderLeft: '1px solid var(--border-dark)',
-              }}
-            >
-              <p
-                className="stat-number"
-                data-value={stat.dataValue}
-                style={{
-                  fontFamily: 'var(--font-hanken)',
-                  fontSize: 'clamp(48px, 6vw, 80px)',
-                  fontWeight: 800,
-                  letterSpacing: '-0.04em',
-                  color: 'var(--sage)',
-                  lineHeight: 1,
-                  marginBottom: '12px',
-                }}
-              >
-                {stat.value}
-              </p>
-              <p
-                style={{
-                  fontFamily: 'var(--font-inter)',
-                  fontSize: '15px',
-                  color: 'var(--text-inverse)',
-                  opacity: 0.6,
-                  letterSpacing: '0.02em',
-                }}
-              >
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   )
 }
