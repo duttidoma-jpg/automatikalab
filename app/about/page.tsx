@@ -1,40 +1,74 @@
 'use client'
 
 import { useEffect } from 'react'
+import Image from 'next/image'
 
 export default function AboutPage() {
   useEffect(() => {
+    let ctx: { revert: () => void } = { revert: () => {} }
+
     const init = async () => {
       const { gsap } = await import('gsap')
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
 
-      gsap.from('.about-intro-text', {
-        opacity: 0,
-        y: 60,
-        duration: 0.9,
-        stagger: 0.15,
-        ease: 'power2.out',
-        delay: 0.3,
-      })
+      const gctx = gsap.context(() => {
+        gsap.fromTo('.about-intro-text',
+          { opacity: 0, y: 60 },
+          { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power2.out', delay: 0.3 }
+        )
 
-      gsap.utils.toArray<HTMLElement>('.about-block').forEach((el) => {
-        gsap.from(el, {
-          scrollTrigger: { trigger: el, start: 'top 80%' },
-          opacity: 0,
-          y: 40,
-          duration: 0.8,
-          ease: 'power2.out',
+        gsap.utils.toArray<HTMLElement>('.about-block').forEach((el) => {
+          gsap.fromTo(el,
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+              scrollTrigger: { trigger: el, start: 'top 80%' } }
+          )
+        })
+
+        // Counter-up анимация для цифр
+        const counters: { el: HTMLElement; target: number; suffix: string; prefix: string }[] = []
+        document.querySelectorAll<HTMLElement>('.stat-number').forEach((el) => {
+          const raw = el.dataset.value ?? el.textContent ?? ''
+          const match = raw.match(/^(\D*?)([\d.]+)(.*)$/)
+          if (!match) return
+          const [, pre, num, suf] = match
+          counters.push({ el, target: parseFloat(num), suffix: suf, prefix: pre })
+          el.textContent = pre + '0' + suf
+        })
+
+        counters.forEach(({ el, target, suffix, prefix }) => {
+          const proxy = { val: 0 }
+          gsap.to(proxy, {
+            val: target,
+            duration: 1.6,
+            ease: 'power2.out',
+            onUpdate() {
+              el.textContent = prefix + Math.round(proxy.val) + suffix
+            },
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 85%',
+              once: true,
+            },
+          })
         })
       })
+
+      ctx.revert = () => {
+        gctx.revert()
+        ScrollTrigger.getAll().forEach((t) => t.kill())
+      }
     }
+
     init()
+    return () => ctx.revert()
   }, [])
 
   return (
     <div style={{ minHeight: '100vh', paddingTop: '80px' }}>
 
-      {/* INTRO — тёмная секция с манифестом */}
+      {/* INTRO */}
       <section
         style={{
           background: 'var(--forest)',
@@ -92,7 +126,7 @@ export default function AboutPage() {
         </h1>
       </section>
 
-      {/* ФИЛОСОФИЯ */}
+      {/* ОСНОВАТЕЛЬ */}
       <section
         style={{
           background: 'var(--cream)',
@@ -101,6 +135,142 @@ export default function AboutPage() {
         }}
       >
         <div
+          className="resp-grid-2 about-block"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1.4fr',
+            gap: 'clamp(48px, 6vw, 96px)',
+            alignItems: 'center',
+          }}
+        >
+          {/* Фото */}
+          <div
+            style={{
+              position: 'relative',
+              aspectRatio: '3/4',
+              overflow: 'hidden',
+              maxWidth: '440px',
+            }}
+          >
+            <Image
+              src="/images/founder.png"
+              alt="Вячеслав Валерьевич — основатель AutomatikaGroup"
+              fill
+              style={{ objectFit: 'cover', objectPosition: 'center top' }}
+              sizes="(max-width: 768px) 100vw, 40vw"
+              priority
+            />
+            {/* Тонкий оверлей для плавности в цветовую схему */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(to bottom, transparent 70%, rgba(244,237,230,0.15) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+
+          {/* Текст */}
+          <div>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--sage)',
+                marginBottom: '20px',
+              }}
+            >
+              Основатель
+            </p>
+            <h2
+              style={{
+                fontFamily: 'var(--font-hanken)',
+                fontSize: 'clamp(32px, 4vw, 52px)',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.05,
+                color: 'var(--text-primary)',
+                marginBottom: '8px',
+              }}
+            >
+              Вячеслав Валерьевич
+            </h2>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: '15px',
+                color: 'var(--sage)',
+                fontWeight: 500,
+                marginBottom: '32px',
+                letterSpacing: '0.01em',
+              }}
+            >
+              Основатель & CEO · AutomatikaGroup · Казахстан
+            </p>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: 'clamp(16px, 1.3vw, 18px)',
+                lineHeight: 1.75,
+                color: 'var(--text-secondary)',
+                marginBottom: '24px',
+              }}
+            >
+              AutomatikaLab — флагманский продукт компании AutomatikaGroup.
+              Мы специализируемся на автоматизации бизнес-процессов, внедрении
+              нейросетей, веб-дизайне и постпродакшне.
+            </p>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: 'clamp(16px, 1.3vw, 18px)',
+                lineHeight: 1.75,
+                color: 'var(--text-secondary)',
+              }}
+            >
+              Работаем с малым и средним бизнесом в СНГ. Понимаем специфику
+              рынка — знаем что реально работает, а что красиво только на бумаге.
+              База в Казахстане, клиенты по всему СНГ.
+            </p>
+
+            {/* Теги-пиллы */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '32px' }}>
+              {['Автоматизация', 'AI / Нейросети', 'Веб-дизайн', 'Постпродакшн', 'Казахстан'].map(tag => (
+                <span
+                  key={tag}
+                  style={{
+                    padding: '6px 16px',
+                    border: '1px solid var(--border-light)',
+                    borderRadius: '9999px',
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ФИЛОСОФИЯ */}
+      <section
+        style={{
+          background: 'var(--cream)',
+          padding: 'clamp(64px, 8vh, 96px) clamp(24px, 5vw, 120px)',
+          borderBottom: '1px solid var(--border-light)',
+        }}
+      >
+        <div
+          className="resp-grid-2"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -120,7 +290,7 @@ export default function AboutPage() {
                 marginBottom: '24px',
               }}
             >
-              AutomatikaLab — это агентство нового типа
+              AutomatikaLab — агентство нового типа
             </h2>
             <p
               style={{
@@ -145,9 +315,9 @@ export default function AboutPage() {
                 marginBottom: '24px',
               }}
             >
-              Наш стек — это не дань моде, а выбор инструментов под задачу.
-              Python и aiogram для ботов, Next.js и GSAP для сайтов, FastAPI
-              для API. Всё подбирается под конкретный проект.
+              Стек подбирается под задачу: Python и aiogram для ботов,
+              Next.js и GSAP для сайтов, FastAPI для API, Claude и GPT-4
+              для AI-продуктов.
             </p>
             <p
               style={{
@@ -157,8 +327,9 @@ export default function AboutPage() {
                 color: 'var(--text-secondary)',
               }}
             >
-              Работаем с малым и средним бизнесом в СНГ. Понимаем специфику
-              рынка, знаем что работает, а что красиво на бумаге.
+              Используем AI-агентов в собственном процессе — не как маркетинг,
+              а как реальный инструмент. Это позволяет работать быстрее
+              без потери в качестве.
             </p>
           </div>
         </div>
@@ -172,6 +343,7 @@ export default function AboutPage() {
         }}
       >
         <div
+          className="resp-grid-3"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
@@ -179,9 +351,9 @@ export default function AboutPage() {
           }}
         >
           {[
-            { value: '30+', label: 'Проектов запущено' },
-            { value: '98%', label: 'Клиентов рекомендуют нас' },
-            { value: '3–7', label: 'Дней до первой версии' },
+            { value: '30+', dataValue: '30+', label: 'Проектов запущено' },
+            { value: '98%', dataValue: '98%', label: 'Клиентов рекомендуют нас' },
+            { value: '3–7', dataValue: '3–7', label: 'Дней до первой версии' },
           ].map((stat) => (
             <div
               key={stat.value}
@@ -192,6 +364,8 @@ export default function AboutPage() {
               }}
             >
               <p
+                className="stat-number"
+                data-value={stat.dataValue}
                 style={{
                   fontFamily: 'var(--font-hanken)',
                   fontSize: 'clamp(48px, 6vw, 80px)',

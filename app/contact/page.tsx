@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Link from 'next/link'
 
 export default function ContactPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -30,7 +29,7 @@ export default function ContactPage() {
           )
           .fromTo('.c-cta',
             { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+            { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power2.out' },
             '-=0.3'
           )
       }, pageRef)
@@ -100,19 +99,30 @@ export default function ContactPage() {
         Расскажите о задаче — остальное возьмём на себя
       </p>
 
+      {/* Мессенджеры */}
       <div
-        className="c-cta"
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '16px',
+          width: '100%',
+          maxWidth: '380px',
+        }}
       >
-        <Link
-          href="https://t.me/automatikalab"
+        {/* Telegram */}
+        <a
+          className="c-cta"
+          href="https://t.me/automatikagroup"
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            display: 'inline-flex',
+            display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             gap: '12px',
-            padding: '20px 56px',
+            width: '100%',
+            padding: '18px 40px',
             background: 'var(--sage)',
             color: 'var(--forest)',
             borderRadius: '9999px',
@@ -125,30 +135,93 @@ export default function ContactPage() {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = 'var(--sage-light)'
-            e.currentTarget.style.transform = 'scale(1.03)'
+            e.currentTarget.style.transform = 'scale(1.02)'
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = 'var(--sage)'
             e.currentTarget.style.transform = 'scale(1)'
           }}
         >
+          {/* Telegram icon */}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.77l-1.68 7.92c-.12.55-.46.68-.93.42l-2.58-1.9-1.24 1.2c-.14.14-.26.26-.52.26l.19-2.67 4.84-4.37c.21-.19-.05-.29-.32-.1L7.8 14.23l-2.53-.79c-.55-.17-.56-.55.12-.81l9.88-3.81c.45-.17.85.11.66.95z" fill="currentColor"/>
+          </svg>
           Написать в Telegram
-        </Link>
+        </a>
 
+        {/* Max messenger */}
         <a
+          className="c-cta"
+          href="https://max.ru/u/f9LHodD0cOKU_ohTHxNZF_PcP9vtHwWwtoLCoVC77jvq62Y3DaGIxzf5WQY"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            width: '100%',
+            padding: '18px 40px',
+            background: 'transparent',
+            color: 'var(--text-inverse)',
+            border: '1px solid rgba(244,237,230,0.25)',
+            borderRadius: '9999px',
+            fontFamily: 'var(--font-inter)',
+            fontSize: '16px',
+            fontWeight: 500,
+            letterSpacing: '0.02em',
+            textDecoration: 'none',
+            transition: 'border-color 300ms ease, background 300ms ease, transform 200ms ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--sage)'
+            e.currentTarget.style.background = 'rgba(143,163,108,0.1)'
+            e.currentTarget.style.transform = 'scale(1.02)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'rgba(244,237,230,0.25)'
+            e.currentTarget.style.background = 'transparent'
+            e.currentTarget.style.transform = 'scale(1)'
+          }}
+        >
+          {/* Max icon — буква M */}
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '20px',
+              height: '20px',
+              background: 'rgba(244,237,230,0.15)',
+              borderRadius: '50%',
+              fontFamily: 'var(--font-hanken)',
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            M
+          </span>
+          Написать в Max
+        </a>
+
+        {/* Email */}
+        <a
+          className="c-cta"
           href="mailto:contact@automaticalab.app"
           style={{
             fontFamily: 'var(--font-inter)',
-            fontSize: '15px',
+            fontSize: '14px',
             color: 'var(--text-inverse)',
-            opacity: 0.45,
+            opacity: 0.4,
             textDecoration: 'none',
-            borderBottom: '1px solid rgba(244,237,230,0.2)',
+            borderBottom: '1px solid rgba(244,237,230,0.15)',
             paddingBottom: '2px',
             transition: 'opacity 200ms ease',
+            marginTop: '8px',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9' }}
-          onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.45' }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8' }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.4' }}
         >
           contact@automaticalab.app
         </a>

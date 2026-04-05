@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="bg" cx="25%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#3d4e2a"/>
+      <stop offset="55%" stop-color="#2e3a1f"/>
+      <stop offset="100%" stop-color="#1d2512"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8fa36c" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#8fa36c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Ambient glow -->
+  <ellipse cx="900" cy="315" rx="420" ry="360" fill="url(#glow)"/>
+
+  <!-- Grid lines -->
+  <g stroke="#8fa36c" stroke-width="0.5" opacity="0.1">
+    <line x1="0" y1="126" x2="1200" y2="126"/>
+    <line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/>
+    <line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Neural net dots — декоративно справа -->
+  <g opacity="0.5">
+    <circle cx="860" cy="180" r="3" fill="#8fa36c" opacity="0.6"/>
+    <circle cx="960" cy="240" r="3.5" fill="#8fa36c" opacity="0.7"/>
+    <circle cx="1040" cy="170" r="2.5" fill="#8fa36c" opacity="0.5"/>
+    <circle cx="1100" cy="300" r="3" fill="#8fa36c" opacity="0.6"/>
+    <circle cx="900" cy="340" r="2.5" fill="#8fa36c" opacity="0.5"/>
+    <circle cx="980" cy="400" r="3" fill="#8fa36c" opacity="0.55"/>
+    <circle cx="1060" cy="440" r="2" fill="#8fa36c" opacity="0.4"/>
+    <circle cx="860" cy="460" r="3.5" fill="#8fa36c" opacity="0.5"/>
+
+    <line x1="860" y1="180" x2="960" y2="240" stroke="#8fa36c" stroke-width="0.7" opacity="0.3"/>
+    <line x1="960" y1="240" x2="1040" y2="170" stroke="#8fa36c" stroke-width="0.7" opacity="0.3"/>
+    <line x1="960" y1="240" x2="1100" y2="300" stroke="#8fa36c" stroke-width="0.7" opacity="0.25"/>
+    <line x1="1100" y1="300" x2="980" y2="400" stroke="#8fa36c" stroke-width="0.6" opacity="0.25"/>
+    <line x1="900" y1="340" x2="980" y2="400" stroke="#8fa36c" stroke-width="0.6" opacity="0.3"/>
+    <line x1="980" y1="400" x2="1060" y2="440" stroke="#8fa36c" stroke-width="0.6" opacity="0.25"/>
+    <line x1="860" y1="460" x2="980" y2="400" stroke="#8fa36c" stroke-width="0.6" opacity="0.25"/>
+
+    <!-- Central glow node -->
+    <circle cx="960" cy="240" r="14" fill="#8fa36c" opacity="0.08"/>
+    <circle cx="960" cy="240" r="5" fill="#c4c97a" opacity="0.7"/>
+    <circle cx="960" cy="240" r="2" fill="#ffffff" opacity="0.5"/>
+  </g>
+
+  <!-- Left content — логотип -->
+  <text
+    x="80" y="260"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="72"
+    font-weight="800"
+    fill="#F4EDE6"
+    letter-spacing="-3"
+  >Automatika</text>
+  <text
+    x="80" y="345"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="72"
+    font-weight="800"
+    fill="#8fa36c"
+    letter-spacing="-3"
+    font-style="italic"
+  >Lab</text>
+
+  <!-- Разделитель -->
+  <line x1="80" y1="388" x2="320" y2="388" stroke="#8fa36c" stroke-width="1" opacity="0.4"/>
+
+  <!-- Подпись -->
+  <text
+    x="80" y="424"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="20"
+    font-weight="400"
+    fill="#F4EDE6"
+    opacity="0.55"
+    letter-spacing="1"
+  >АВТОМАТИЗАЦИЯ БУДУЩЕГО</text>
+
+  <!-- Домен внизу -->
+  <text
+    x="80" y="570"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="16"
+    fill="#8fa36c"
+    opacity="0.5"
+    letter-spacing="0.5"
+  >automaticalab.app</text>
+</svg>

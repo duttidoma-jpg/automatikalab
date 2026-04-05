@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface WorkCardProps {
   title: string
   category: string
   year: string
   bg?: string
+  imageSrc?: string
   featured?: boolean
   href?: string
   soon?: boolean
@@ -18,6 +20,7 @@ export default function WorkCard({
   category,
   year,
   bg = 'var(--forest)',
+  imageSrc,
   featured = false,
   href = '#',
   soon = false,
@@ -35,24 +38,39 @@ export default function WorkCard({
         position: 'relative',
         aspectRatio: featured ? '21/9' : '16/10',
         overflow: 'hidden',
-        borderRadius: 0, // Sharp — editorial стиль
+        borderRadius: 0,
         textDecoration: 'none',
         color: 'var(--text-inverse)',
         background: bg,
       }}
     >
-      {/* Фоновый градиент / заглушка */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: bg,
-          transform: hovered ? 'scale(1.05)' : 'scale(1)',
-          transition: 'transform 700ms cubic-bezier(0.25, 0.1, 0.25, 1)',
-        }}
-      />
+      {/* Фоновое изображение или цвет */}
+      {imageSrc ? (
+        <Image
+          src={imageSrc}
+          alt={title}
+          fill
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+            transform: hovered ? 'scale(1.05)' : 'scale(1)',
+            transition: 'transform 700ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      ) : (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: bg,
+            transform: hovered ? 'scale(1.05)' : 'scale(1)',
+            transition: 'transform 700ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
+        />
+      )}
 
-      {/* Текстурный паттерн поверх фона */}
+      {/* Текстурный паттерн */}
       <div
         style={{
           position: 'absolute',
@@ -122,7 +140,7 @@ export default function WorkCard({
         </div>
       )}
 
-      {/* Нижняя информация о проекте */}
+      {/* Нижняя информация */}
       <div
         style={{
           position: 'absolute',
@@ -131,7 +149,7 @@ export default function WorkCard({
           right: 0,
           padding: '24px 32px',
           background:
-            'linear-gradient(to top, rgba(29,37,18,0.8) 0%, transparent 100%)',
+            'linear-gradient(to top, rgba(29,37,18,0.85) 0%, rgba(29,37,18,0.3) 60%, transparent 100%)',
           zIndex: 4,
           transform: hovered ? 'translateY(-8px)' : 'translateY(0)',
           transition: 'transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1)',

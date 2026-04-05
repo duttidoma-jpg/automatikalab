@@ -1,6 +1,9 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
+
+// На сервере useLayoutEffect вызывает предупреждение — используем useEffect там
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 const steps = [
   {
@@ -40,13 +43,21 @@ export default function ProcessSection() {
   const dotEls = useRef<(HTMLDivElement | null)[]>([])
   const scrollHintRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     let ctx: { revert: () => void } = { revert: () => {} }
+    let mounted = true
 
     const init = async () => {
       const { gsap } = await import('gsap')
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+
+      // Компонент мог размонтироваться пока шёл async import — выходим
+      if (!mounted) return
+
       gsap.registerPlugin(ScrollTrigger)
+
+      // Пересчитываем позиции элементов — важно после смены страниц
+      ScrollTrigger.refresh()
 
       const gctx = gsap.context(() => {
         gsap.set(stepEls.current[0], { opacity: 1, y: 0 })
@@ -69,7 +80,7 @@ export default function ProcessSection() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top top',
-            end: `+=${steps.length * 100}vh`,
+            end: `+=${steps.length * 150}vh`,
             pin: true,
             scrub: 1.2,
             onUpdate: (self) => {
@@ -127,13 +138,18 @@ export default function ProcessSection() {
       }, sectionRef)
 
       ctx.revert = () => {
+        // gctx.revert() убирает pin-spacer и восстанавливает стили
         gctx.revert()
+        // Убиваем все оставшиеся триггеры чтобы не было утечек
         ScrollTrigger.getAll().forEach((t) => t.kill())
       }
     }
 
     init()
-    return () => ctx.revert()
+    return () => {
+      mounted = false  // блокируем запоздавший async init
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -285,20 +301,26 @@ export default function ProcessSection() {
         </div>
 
         {/* Контент шагов */}
-        <div style={{ flex: 1, position: 'relative' }}>
+        <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
           {steps.map((step, i) => (
             <div
               key={i}
               ref={(el) => { stepEls.current[i] = el }}
+              className="resp-grid-2"
               style={{
                 position: 'absolute',
                 top: 0,
+                bottom: 0,
                 left: 0,
                 right: 0,
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: 'clamp(32px, 6vw, 96px)',
-                alignItems: 'start',
+                alignItems: 'center',
+                // CSS opacity-дефолт: только первый шаг виден.
+                // GSAP при revert() восстанавливает именно эти значения —
+                // шаги 1-3 остаются невидимыми между навигациями.
+                opacity: i === 0 ? 1 : 0,
               }}
             >
               {/* Номер + заголовок */}

@@ -26,10 +26,10 @@ const projects = [
     year: '2025',
     location: 'Корпоративный',
     description:
-      'AI-ассистент для банка и офисной среды. Обрабатывает запросы сотрудников, работает с документами, отвечает на типовые вопросы — снижает нагрузку на HR и поддержку.',
+      'Универсальная AI-система для работы с данными. Внедряется в любой бизнес: анализирует документы, отвечает на запросы, автоматизирует рутину. Первый кейс — корпоративная среда банка.',
     tags: ['Claude API', 'RAG', 'Python'],
-    hasImage: false,
-    gradient: 'linear-gradient(135deg, #1d2512 0%, #2e3a1f 40%, #3d4e2a 70%, #8fa36c22 100%)',
+    hasImage: true,
+    imageSrc: '/images/office-assistant.png',
     href: '#',
     external: false,
   },
@@ -119,7 +119,7 @@ export default function WorkPage() {
         {projects.map((project, i) => (
           <article
             key={project.id}
-            className="project-card"
+            className="project-card resp-grid-2 resp-order-reset"
             style={{
               padding: 'clamp(48px, 6vh, 80px) 0',
               borderBottom: '1px solid var(--border-light)',
@@ -152,7 +152,7 @@ export default function WorkPage() {
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    background: project.gradient,
+                    background: 'linear-gradient(135deg, #1d2512 0%, #2e3a1f 40%, #3d4e2a 70%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

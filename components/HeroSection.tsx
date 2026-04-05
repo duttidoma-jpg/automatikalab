@@ -146,6 +146,7 @@ export default function HeroSection() {
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'flex-end',
+        background: 'var(--forest)', // заглушка пока видео не загрузилось
       }}
     >
       {/* Видео 1 — основное */}
@@ -154,6 +155,7 @@ export default function HeroSection() {
         muted
         playsInline
         preload="auto"
+        poster="/images/hero-poster.jpg"
         style={{
           position: 'absolute',
           inset: 0,
@@ -174,6 +176,7 @@ export default function HeroSection() {
         muted
         playsInline
         preload="auto"
+        poster="/images/hero-poster.jpg"
         style={{
           position: 'absolute',
           inset: 0,
@@ -268,33 +271,62 @@ export default function HeroSection() {
           Пока конкуренты думают — вы уже впереди
         </p>
 
-        <Link
-          href="/work"
-          className="hero-cta"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            padding: '14px 32px',
-            border: '1px solid rgba(244,237,230,0.5)',
-            borderRadius: '9999px',
-            fontSize: '15px',
-            fontWeight: 500,
-            letterSpacing: '0.02em',
-            color: 'var(--text-inverse)',
-            textDecoration: 'none',
-            transition: 'border-color 300ms ease, background 300ms ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'var(--sage)'
-            e.currentTarget.style.background = 'rgba(143,163,108,0.15)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(244,237,230,0.5)'
-            e.currentTarget.style.background = 'transparent'
-          }}
-        >
-          Смотреть работы →
-        </Link>
+        <div className="hero-cta" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <Link
+            href="https://t.me/automatikagroup"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '14px 32px',
+              background: 'var(--sage)',
+              borderRadius: '9999px',
+              fontSize: '15px',
+              fontWeight: 600,
+              letterSpacing: '0.02em',
+              color: 'var(--forest)',
+              textDecoration: 'none',
+              transition: 'background 300ms ease, transform 200ms ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--sage-light)'
+              e.currentTarget.style.transform = 'scale(1.02)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'var(--sage)'
+              e.currentTarget.style.transform = 'scale(1)'
+            }}
+          >
+            Начать проект
+          </Link>
+          <Link
+            href="/work"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '14px 32px',
+              border: '1px solid rgba(244,237,230,0.5)',
+              borderRadius: '9999px',
+              fontSize: '15px',
+              fontWeight: 500,
+              letterSpacing: '0.02em',
+              color: 'var(--text-inverse)',
+              textDecoration: 'none',
+              transition: 'border-color 300ms ease, background 300ms ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--sage)'
+              e.currentTarget.style.background = 'rgba(143,163,108,0.15)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(244,237,230,0.5)'
+              e.currentTarget.style.background = 'transparent'
+            }}
+          >
+            Смотреть работы →
+          </Link>
+        </div>
       </div>
     </section>
   )

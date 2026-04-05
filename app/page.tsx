@@ -61,7 +61,6 @@ export default function HomePage() {
 
       ctx.revert = () => {
         gctx.revert()
-        ScrollTrigger.getAll().forEach((t) => t.kill())
       }
     }
 
@@ -157,6 +156,7 @@ export default function HomePage() {
         }}
       >
         <div
+          className="resp-grid-2"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -325,13 +325,140 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="works-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
+        <div className="works-grid resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
           <div className="works-preview-card">
-            <WorkCard title="Атмосфера Фудкорт" category="Сайт + Автоматизация" year="2024" bg="var(--forest)" featured />
+            <WorkCard
+              title="Атмосфера Фудкорт"
+              category="Сайт + Автоматизация"
+              year="2024"
+              bg="var(--forest)"
+              imageSrc="/images/foodcourt.jpg"
+              href="/work"
+              featured
+            />
           </div>
           <div className="works-preview-card">
-            <WorkCard title="Office Assistant" category="AI-ассистент" year="2025" bg="var(--forest-light)" featured />
+            <WorkCard
+              title="Office Assistant"
+              category="AI-ассистент"
+              year="2025"
+              bg="var(--forest-light)"
+              imageSrc="/images/office-assistant.png"
+              href="/work"
+              featured
+            />
           </div>
+        </div>
+      </section>
+
+      {/* ОТЗЫВЫ */}
+      <section
+        style={{
+          background: 'var(--forest)',
+          padding: 'clamp(80px, 10vh, 128px) clamp(24px, 5vw, 120px)',
+        }}
+      >
+        <p
+          style={{
+            fontFamily: 'var(--font-inter)',
+            fontSize: '13px',
+            fontWeight: 500,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'var(--sage)',
+            marginBottom: '48px',
+          }}
+        >
+          Что говорят клиенты
+        </p>
+
+        <div
+          className="resp-grid-3"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '2px',
+          }}
+        >
+          {[
+            {
+              quote: 'Ребята сделали нам Telegram-бота для приёма заказов за 4 дня. До этого менеджеры тратили 3 часа в день только на обработку входящих. Теперь — ноль.',
+              name: 'Алексей К.',
+              role: 'Владелец ресторанной сети · Алматы',
+            },
+            {
+              quote: 'Объяснил задачу один раз — получил готовый AI-ассистент для команды. Никаких лишних вопросов, никаких сюрпризов. Работает стабильно уже полгода.',
+              name: 'Дмитрий Е.',
+              role: 'CTO · IT-компания · Астана',
+            },
+            {
+              quote: 'Сайт сделали с нуля за 2 недели. Дизайн лучше чем у конкурентов, которые тратили месяцы. Ещё и объяснили как всё работает — не оставили один на один.',
+              name: 'Марина С.',
+              role: 'Директор по маркетингу · E-commerce',
+            },
+          ].map((review) => (
+            <div
+              key={review.name}
+              style={{
+                padding: 'clamp(32px, 4vw, 48px)',
+                borderLeft: '1px solid var(--border-dark)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '28px',
+              }}
+            >
+              {/* Кавычка */}
+              <span
+                style={{
+                  fontFamily: 'var(--font-hanken)',
+                  fontSize: '48px',
+                  lineHeight: 1,
+                  color: 'var(--sage)',
+                  opacity: 0.4,
+                  display: 'block',
+                  marginBottom: '-12px',
+                }}
+              >
+                "
+              </span>
+              <p
+                style={{
+                  fontFamily: 'var(--font-inter)',
+                  fontSize: 'clamp(15px, 1.2vw, 17px)',
+                  lineHeight: 1.7,
+                  color: 'var(--text-inverse)',
+                  opacity: 0.75,
+                  flex: 1,
+                }}
+              >
+                {review.quote}
+              </p>
+              <div>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: 'var(--text-inverse)',
+                    marginBottom: '4px',
+                  }}
+                >
+                  {review.name}
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-inter)',
+                    fontSize: '12px',
+                    color: 'var(--sage)',
+                    opacity: 0.7,
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  {review.role}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import './globals.css'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CustomCursor from '@/components/CustomCursor'
+import PageTransition from '@/components/PageTransition'
 
 // Шрифт для заголовков — editorial grotesque характер
 const hanken = Hanken_Grotesk({
@@ -34,6 +35,20 @@ export const metadata: Metadata = {
     siteName: 'AutomatikaLab',
     locale: 'ru_RU',
     type: 'website',
+    images: [
+      {
+        url: 'https://automaticalab.app/images/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'AutomatikaLab — Автоматизация будущего',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AutomatikaLab — Автоматизация будущего',
+    description: 'Telegram-боты, AI-ассистенты и автоматизация бизнеса.',
+    images: ['https://automaticalab.app/images/og-image.svg'],
   },
   robots: {
     index: true,
@@ -56,8 +71,10 @@ export default function RootLayout({
         <CustomCursor />
         {/* Навигация — fixed, z-50 */}
         <Nav />
-        {/* Контент страницы */}
-        <main>{children}</main>
+        {/* Контент страницы с переходами */}
+        <main>
+          <PageTransition>{children}</PageTransition>
+        </main>
         {/* Футер */}
         <Footer />
       </body>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 
 const services = [
   {
@@ -133,7 +134,7 @@ export default function ServicesPage() {
       </div>
 
       {/* Список услуг */}
-      {services.map((service) => (
+      {services.map(service => (
         <div
           key={service.number}
           className="srv-row"
@@ -144,6 +145,7 @@ export default function ServicesPage() {
           }}
         >
           <div
+            className="resp-grid-services"
             style={{
               display: 'grid',
               gridTemplateColumns: '140px 1fr 1fr',
@@ -200,6 +202,60 @@ export default function ServicesPage() {
           </div>
         </div>
       ))}
+
+      {/* CTA-секция */}
+      <section
+        style={{
+          background: 'var(--cream)',
+          padding: 'clamp(64px, 8vh, 96px) clamp(24px, 5vw, 120px)',
+          borderTop: '1px solid var(--border-light)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '32px',
+        }}
+      >
+        <p
+          style={{
+            fontFamily: 'var(--font-hanken)',
+            fontSize: 'clamp(22px, 3vw, 40px)',
+            fontWeight: 700,
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+            lineHeight: 1.2,
+          }}
+        >
+          Нужна консультация<br />по вашей задаче?
+        </p>
+        <Link
+          href="/contact"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '18px 48px',
+            background: 'var(--sage)',
+            color: 'var(--forest)',
+            borderRadius: '9999px',
+            fontFamily: 'var(--font-inter)',
+            fontSize: '15px',
+            fontWeight: 600,
+            letterSpacing: '0.02em',
+            textDecoration: 'none',
+            transition: 'background 300ms ease, transform 200ms ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'var(--sage-dark)'
+            e.currentTarget.style.transform = 'scale(1.02)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--sage)'
+            e.currentTarget.style.transform = 'scale(1)'
+          }}
+        >
+          Обсудить проект
+        </Link>
+      </section>
     </div>
   )
 }

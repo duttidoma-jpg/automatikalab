@@ -23,6 +23,7 @@ export default function Footer() {
     >
       {/* Верхняя часть */}
       <div
+        className="resp-footer-top"
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr auto',
@@ -129,7 +130,7 @@ export default function Footer() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Link
-                href="https://t.me/automatikalab"
+                href="https://t.me/automatikagroup"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
