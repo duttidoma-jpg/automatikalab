@@ -1,15 +1,45 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
+
+// NeuralMesh грузится только на клиенте — Three.js не совместим с SSR
+const NeuralMesh = dynamic(() => import('./NeuralMesh'), {
+  ssr: false,
+  loading: () => null,
+})
+
+// Проверка WebGL — если нет, показываем видео-fallback
+function isWebGLAvailable(): boolean {
+  if (typeof window === 'undefined') return false
+  try {
+    const canvas = document.createElement('canvas')
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    )
+  } catch { return false }
+}
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const video2Ref = useRef<HTMLVideoElement>(null)
+  const [useWebGL, setUseWebGL] = useState(true)   // по умолчанию WebGL
+
+  // Определяем WebGL — если нет или мобайл, используем видео-fallback
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768
+    if (isMobile || !isWebGLAvailable()) {
+      setUseWebGL(false)
+    }
+  }, [])
 
   // Видео: мобильный — простой loop, десктоп — кросс-фейд между двумя видео
   useEffect(() => {
+    if (useWebGL) return  // WebGL активен — видео не нужно
+
     const v1 = videoRef.current
     const v2 = video2Ref.current
     if (!v1 || !v2) return
@@ -154,55 +184,53 @@ export default function HeroSection() {
         background: 'var(--forest)', // заглушка пока видео не загрузилось
       }}
     >
-      {/* Видео 1 — основное */}
-      <video
-        ref={videoRef}
-        muted
-        playsInline
-        preload="auto"
-        poster="/images/hero-poster.jpg"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 0,
-          opacity: 1,
-          transition: 'none',
-        }}
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+      {useWebGL ? (
+        /* ── WebGL Neural Mesh ── */
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <NeuralMesh />
+        </div>
+      ) : (
+        /* ── Видео fallback (мобайл / нет WebGL) ── */
+        <>
+          <video
+            ref={videoRef}
+            muted
+            playsInline
+            preload="auto"
+            poster="/images/hero-poster.jpg"
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', zIndex: 0, opacity: 1, transition: 'none',
+            }}
+          >
+            <source src="/videos/hero.mp4" type="video/mp4" />
+          </video>
+          <video
+            ref={video2Ref}
+            muted
+            playsInline
+            preload="auto"
+            poster="/images/hero-poster.jpg"
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', zIndex: 0, opacity: 0, transition: 'none',
+            }}
+          >
+            <source src="/videos/hero.mp4" type="video/mp4" />
+          </video>
+        </>
+      )}
 
-      {/* Видео 2 — для кросс-фейда */}
-      <video
-        ref={video2Ref}
-        muted
-        playsInline
-        preload="auto"
-        poster="/images/hero-poster.jpg"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 0,
-          opacity: 0,
-          transition: 'none',
-        }}
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
-
-      {/* Overlay */}
+      {/* Overlay — чуть темнее поверх WebGL для читаемости текста */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background:
-            'linear-gradient(to bottom, rgba(46,58,31,0.60) 0%, rgba(46,58,31,0.25) 50%, rgba(244,237,230,0.12) 100%)',
+          background: useWebGL
+            ? 'linear-gradient(to bottom, rgba(46,58,31,0.45) 0%, rgba(46,58,31,0.15) 50%, rgba(46,58,31,0.55) 100%)'
+            : 'linear-gradient(to bottom, rgba(46,58,31,0.60) 0%, rgba(46,58,31,0.25) 50%, rgba(244,237,230,0.12) 100%)',
           zIndex: 1,
         }}
       />
