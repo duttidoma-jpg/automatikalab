@@ -17,7 +17,12 @@ export default function HomePage() {
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
 
+      const isMobile = window.innerWidth <= 768
+
       const gctx = gsap.context(() => {
+        // На мобильных анимации skip — элементы сразу видимы
+        if (isMobile) return
+
         // Манифест
         gsap.fromTo(
           '.manifest-line',
@@ -216,6 +221,7 @@ export default function HomePage() {
             ].map((item) => (
               <div
                 key={item.label}
+                className="tech-table-row"
                 style={{
                   padding: '20px 24px',
                   borderTop: '1px solid rgba(244,237,230,0.08)',

@@ -247,3 +247,104 @@ body {
   background: var(--sage-light);
   transform: translateY(-2px);
 }
+
+/* ============================================================
+   Адаптив — мобильные устройства (≤ 768px)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* Навигация */
+  .nav-links-desktop,
+  .nav-cta-desktop {
+    display: none !important;
+  }
+  .nav-burger {
+    display: flex !important;
+  }
+
+  /* Двухколоночные сетки → одна колонка */
+  .resp-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Трёхколоночные сетки → одна колонка */
+  .resp-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Услуги: три колонки [num, title, desc] → одна */
+  .resp-grid-services {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* Карточки работ: сброс чередования порядка */
+  .resp-order-reset > * {
+    order: unset !important;
+  }
+
+  /* Футер верхняя сетка */
+  .resp-footer-top {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ---- GSAP fallback: элементы видны если анимация не сработала ---- */
+  /* На мобильном GSAP scroll-анимации ненадёжны — форсируем видимость */
+  .about-block,
+  .project-card,
+  .works-preview-card,
+  .manifest-line,
+  .process-heading,
+  .work-heading,
+  .srv-heading,
+  .about-intro-text,
+  .final-cta,
+  .works-header {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* ---- Hero ---- */
+  /* Предотвращаем обрезание длинных слов */
+  .hero-line-1,
+  .hero-line-2 {
+    font-size: clamp(40px, 11vw, 80px) !important;
+    word-break: break-word;
+  }
+  /* Кнопки Hero — в колонку на узких экранах */
+  .hero-cta {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  /* ---- ProcessSection mobile — скрываем десктоп версию ---- */
+  .process-desktop {
+    display: none !important;
+  }
+  .process-mobile {
+    display: block !important;
+  }
+
+  /* ---- Works карточки на главной — 1 колонка ---- */
+  .works-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ---- Футер: колонки навигации в ряд ---- */
+  .resp-footer-top > div:last-child {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ---- Секция технологий: таблица → колонка ---- */
+  .tech-table-row {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+  }
+
+  /* ---- Работы: фото на мобильном 100% ширины ---- */
+  .project-image-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

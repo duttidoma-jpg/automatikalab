@@ -46,7 +46,11 @@ export default function WorkPage() {
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
 
+      const isMobile = window.innerWidth <= 768
+
       const gctx = gsap.context(() => {
+        if (isMobile) return
+
         gsap.fromTo(
           '.work-heading',
           { opacity: 0, y: 30 },
@@ -131,12 +135,14 @@ export default function WorkPage() {
           >
             {/* Изображение — чередуем сторону */}
             <div
+              className="project-image-wrap"
               style={{
                 order: i % 2 === 0 ? 0 : 1,
                 position: 'relative',
                 aspectRatio: '16/10',
                 overflow: 'hidden',
                 borderRadius: 0,
+                width: '100%',
               }}
             >
               {project.hasImage ? (

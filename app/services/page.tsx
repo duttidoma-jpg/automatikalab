@@ -57,6 +57,9 @@ export default function ServicesPage() {
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
 
+      const isMobile = window.innerWidth <= 768
+      if (isMobile) return
+
       // Заголовок страницы
       gsap.fromTo(
         '.srv-heading',

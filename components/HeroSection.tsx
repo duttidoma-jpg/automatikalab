@@ -234,7 +234,7 @@ export default function HeroSection() {
             style={{
               display: 'block',
               fontFamily: 'var(--font-hanken)',
-              fontSize: 'clamp(64px, 9vw, 140px)',
+              fontSize: 'clamp(42px, 9vw, 140px)',
               fontWeight: 800,
               lineHeight: 1.0,
               letterSpacing: '-0.04em',
@@ -247,7 +247,7 @@ export default function HeroSection() {
             style={{
               display: 'block',
               fontFamily: 'var(--font-hanken)',
-              fontSize: 'clamp(64px, 9vw, 140px)',
+              fontSize: 'clamp(42px, 9vw, 140px)',
               fontWeight: 800,
               lineHeight: 1.0,
               letterSpacing: '-0.04em',

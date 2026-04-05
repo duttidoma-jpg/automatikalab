@@ -12,7 +12,12 @@ export default function AboutPage() {
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
 
+      const isMobile = window.innerWidth <= 768
+
       const gctx = gsap.context(() => {
+        // На мобильных анимации skip — элементы сразу видимы
+        if (isMobile) return
+
         gsap.fromTo('.about-intro-text',
           { opacity: 0, y: 60 },
           { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power2.out', delay: 0.3 }
@@ -150,6 +155,7 @@ export default function AboutPage() {
               aspectRatio: '3/4',
               overflow: 'hidden',
               maxWidth: '440px',
+              width: '100%',
             }}
           >
             <Image

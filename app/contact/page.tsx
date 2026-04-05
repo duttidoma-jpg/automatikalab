@@ -11,7 +11,11 @@ export default function ContactPage() {
     const init = async () => {
       const { gsap } = await import('gsap')
 
+      const isMobile = window.innerWidth <= 768
+
       const gctx = gsap.context(() => {
+        if (isMobile) return
+
         gsap.timeline({ delay: 0.15 })
           .fromTo('.c-label',
             { opacity: 0, y: 16 },

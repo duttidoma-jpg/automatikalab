@@ -1,8 +1,5 @@
 'use client'
 
-// PageTransition — обёртка для плавных переходов между страницами
-// Используется как wrapper в layout или отдельных страницах
-
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
@@ -13,29 +10,35 @@ export default function PageTransition({
 }) {
   const pathname = usePathname()
   const overlayRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
+  const isFirst = useRef(true)
 
   useEffect(() => {
+    // Первую загрузку пропускаем — у каждой страницы своя GSAP entrance-анимация
+    if (isFirst.current) {
+      isFirst.current = false
+      return
+    }
+
     const runTransition = async () => {
       const { gsap } = await import('gsap')
+      if (!overlayRef.current) return
 
-      if (!overlayRef.current || !contentRef.current) return
-
-      // Overlay slide in сверху, затем slide out
+      // Оверлей закрывает контент — opacity самого контента НЕ трогаем
+      // чтобы не было зависания прозрачности при ошибке
       const tl = gsap.timeline()
-
       tl.set(overlayRef.current, { yPercent: -100, display: 'block' })
-        .set(contentRef.current, { opacity: 0 })
         .to(overlayRef.current, {
           yPercent: 0,
           duration: 0.4,
           ease: 'power3.in',
         })
-        .to(contentRef.current, { opacity: 1, duration: 0.1 }, '+=0.15')
         .to(overlayRef.current, {
           yPercent: 100,
-          duration: 0.5,
+          duration: 0.55,
           ease: 'power3.out',
+          onComplete: () => {
+            if (overlayRef.current) overlayRef.current.style.display = 'none'
+          },
         })
     }
 
@@ -44,7 +47,7 @@ export default function PageTransition({
 
   return (
     <>
-      {/* Overlay для page transition */}
+      {/* Оверлей перехода — поверх всего контента */}
       <div
         ref={overlayRef}
         style={{
@@ -56,8 +59,8 @@ export default function PageTransition({
           display: 'none',
         }}
       />
-      {/* Контент страницы */}
-      <div ref={contentRef}>{children}</div>
+      {/* Контент — без манипуляций opacity */}
+      {children}
     </>
   )
 }
