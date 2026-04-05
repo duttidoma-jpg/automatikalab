@@ -5,7 +5,11 @@ import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import WorkCard from '@/components/WorkCard'
 import ProcessSection from '@/components/ProcessSection'
-import MarqueeStrip from '@/components/MarqueeStrip'
+import CurveDivider from '@/components/CurveDivider'
+
+// Цветовой ритм главной страницы:
+// forest → cream → caramel → forest → cream → caramel → forest
+// Каждый переход оформлен через CurveDivider — органическая SVG-кривая
 
 export default function HomePage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -21,7 +25,6 @@ export default function HomePage() {
       const isMobile = window.innerWidth <= 768
 
       const gctx = gsap.context(() => {
-        // На мобильных анимации skip — элементы сразу видимы
         if (isMobile) return
 
         // Манифест
@@ -65,9 +68,7 @@ export default function HomePage() {
         )
       }, pageRef)
 
-      ctx.revert = () => {
-        gctx.revert()
-      }
+      ctx.revert = () => { gctx.revert() }
     }
 
     init()
@@ -76,19 +77,20 @@ export default function HomePage() {
 
   return (
     <div ref={pageRef}>
-      {/* HERO */}
+
+      {/* ① HERO — forest */}
       <HeroSection />
 
-      {/* MARQUEE — разделитель между Hero и Манифестом */}
-      <MarqueeStrip inverted />
+      {/* forest → cream */}
+      <CurveDivider from="var(--forest)" to="var(--cream)" variant={0} />
 
-      {/* МАНИФЕСТ */}
+      {/* ② МАНИФЕСТ — cream */}
       <section
         className="manifest-section"
         style={{
-          background: 'var(--forest)',
-          color: 'var(--text-inverse)',
-          padding: 'clamp(80px, 12vh, 160px) clamp(24px, 5vw, 120px)',
+          background: 'var(--cream)',
+          color: 'var(--text-primary)',
+          padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 120px)',
         }}
       >
         <p
@@ -116,6 +118,7 @@ export default function HomePage() {
               fontWeight: 800,
               lineHeight: 1.05,
               letterSpacing: '-0.03em',
+              color: 'var(--text-primary)',
             }}
           >
             Будущее — не страшно.
@@ -130,7 +133,7 @@ export default function HomePage() {
               lineHeight: 1.05,
               letterSpacing: '-0.03em',
               fontStyle: 'italic',
-              color: 'var(--sage-light)',
+              color: 'var(--forest)',
             }}
           >
             Мы проведём за руку.
@@ -143,7 +146,7 @@ export default function HomePage() {
             fontFamily: 'var(--font-inter)',
             fontSize: 'clamp(15px, 1.4vw, 19px)',
             lineHeight: 1.65,
-            opacity: 0.62,
+            color: 'var(--text-secondary)',
             maxWidth: '540px',
             marginTop: '40px',
           }}
@@ -154,17 +157,20 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* КАК МЫ РАБОТАЕМ — pinned scroll-driven секция */}
+      {/* cream → caramel */}
+      <CurveDivider from="var(--cream)" to="var(--caramel)" variant={2} />
+
+      {/* ③ ПРОЦЕСС — caramel */}
       <ProcessSection />
 
-      {/* MARQUEE — разделитель между Процессом и Технологиями */}
-      <MarqueeStrip />
+      {/* caramel → forest */}
+      <CurveDivider from="var(--caramel)" to="var(--forest)" variant={1} />
 
-      {/* ТЕХНОЛОГИИ — агентная автоматизация */}
+      {/* ④ ТЕХНОЛОГИИ — forest */}
       <section
         style={{
           background: 'var(--forest)',
-          padding: 'clamp(80px, 10vh, 128px) clamp(24px, 5vw, 120px)',
+          padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 120px)',
         }}
       >
         <div
@@ -238,27 +244,10 @@ export default function HomePage() {
                   alignItems: 'start',
                 }}
               >
-                <span
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: 'var(--sage)',
-                    letterSpacing: '0.01em',
-                    paddingTop: '2px',
-                  }}
-                >
+                <span style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: 500, color: 'var(--sage)', letterSpacing: '0.01em', paddingTop: '2px' }}>
                   {item.label}
                 </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '13px',
-                    lineHeight: 1.6,
-                    color: 'var(--text-inverse)',
-                    opacity: 0.55,
-                  }}
-                >
+                <span style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', lineHeight: 1.6, color: 'var(--text-inverse)', opacity: 0.55 }}>
                   {item.desc}
                 </span>
               </div>
@@ -267,12 +256,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ИЗБРАННЫЕ РАБОТЫ */}
+      {/* forest → cream */}
+      <CurveDivider from="var(--forest)" to="var(--cream)" variant={2} />
+
+      {/* ⑤ РАБОТЫ — cream */}
       <section
         className="works-section"
         style={{
           background: 'var(--cream)',
-          padding: 'clamp(80px, 10vh, 128px) clamp(24px, 5vw, 120px)',
+          padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 120px)',
         }}
       >
         <div
@@ -287,52 +279,18 @@ export default function HomePage() {
           }}
         >
           <div>
-            <p
-              style={{
-                fontFamily: 'var(--font-inter)',
-                fontSize: '13px',
-                fontWeight: 500,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--sage)',
-                marginBottom: '12px',
-              }}
-            >
+            <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: '12px' }}>
               Избранные работы
             </p>
-            <h2
-              style={{
-                fontFamily: 'var(--font-hanken)',
-                fontSize: 'clamp(28px, 4vw, 52px)',
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
-                color: 'var(--text-primary)',
-                lineHeight: 1.1,
-              }}
-            >
+            <h2 style={{ fontFamily: 'var(--font-hanken)', fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text-primary)', lineHeight: 1.1 }}>
               Проекты которые<br />говорят сами за себя
             </h2>
           </div>
           <Link
             href="/work"
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '15px',
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              textDecoration: 'none',
-              borderBottom: '1px solid var(--border-light)',
-              paddingBottom: '2px',
-              transition: 'border-color 200ms ease, color 200ms ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--sage)'
-              e.currentTarget.style.color = 'var(--sage)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-light)'
-              e.currentTarget.style.color = 'var(--text-primary)'
-            }}
+            style={{ fontFamily: 'var(--font-inter)', fontSize: '15px', fontWeight: 500, color: 'var(--text-primary)', textDecoration: 'none', borderBottom: '1px solid var(--border-light)', paddingBottom: '2px', transition: 'border-color 200ms ease, color 200ms ease' }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--sage)'; e.currentTarget.style.color = 'var(--sage)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-light)'; e.currentTarget.style.color = 'var(--text-primary)' }}
           >
             Все работы →
           </Link>
@@ -340,59 +298,29 @@ export default function HomePage() {
 
         <div className="works-grid resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
           <div className="works-preview-card">
-            <WorkCard
-              title="Атмосфера Фудкорт"
-              category="Сайт + Автоматизация"
-              year="2024"
-              bg="var(--forest)"
-              imageSrc="/images/foodcourt.jpg"
-              href="/work"
-              featured
-            />
+            <WorkCard title="Атмосфера Фудкорт" category="Сайт + Автоматизация" year="2024" bg="var(--forest)" imageSrc="/images/foodcourt.jpg" href="/work" featured />
           </div>
           <div className="works-preview-card">
-            <WorkCard
-              title="Office Assistant"
-              category="AI-ассистент"
-              year="2025"
-              bg="var(--forest-light)"
-              imageSrc="/images/office-assistant.png"
-              href="/work"
-              featured
-            />
+            <WorkCard title="Office Assistant" category="AI-ассистент" year="2025" bg="var(--forest-light)" imageSrc="/images/office-assistant.png" href="/work" featured />
           </div>
         </div>
       </section>
 
-      {/* ОТЗЫВЫ */}
+      {/* cream → caramel */}
+      <CurveDivider from="var(--cream)" to="var(--caramel)" variant={0} />
+
+      {/* ⑥ ОТЗЫВЫ — caramel */}
       <section
         style={{
-          background: 'var(--forest)',
-          padding: 'clamp(80px, 10vh, 128px) clamp(24px, 5vw, 120px)',
+          background: 'var(--caramel)',
+          padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 120px)',
         }}
       >
-        <p
-          style={{
-            fontFamily: 'var(--font-inter)',
-            fontSize: '13px',
-            fontWeight: 500,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: 'var(--sage)',
-            marginBottom: '48px',
-          }}
-        >
+        <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--forest)', opacity: 0.6, marginBottom: '48px' }}>
           Что говорят клиенты
         </p>
 
-        <div
-          className="resp-grid-3"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '2px',
-          }}
-        >
+        <div className="resp-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px' }}>
           {[
             {
               quote: 'Ребята сделали нам Telegram-бота для приёма заказов за 4 дня. До этого менеджеры тратили 3 часа в день только на обработку входящих. Теперь — ноль.',
@@ -413,60 +341,24 @@ export default function HomePage() {
             <div
               key={review.name}
               style={{
-                padding: 'clamp(32px, 4vw, 48px)',
-                borderLeft: '1px solid var(--border-dark)',
+                padding: 'clamp(28px, 4vw, 44px)',
+                borderLeft: '1px solid rgba(46,58,31,0.2)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '28px',
+                gap: '24px',
               }}
             >
-              {/* Кавычка */}
-              <span
-                style={{
-                  fontFamily: 'var(--font-hanken)',
-                  fontSize: '48px',
-                  lineHeight: 1,
-                  color: 'var(--sage)',
-                  opacity: 0.4,
-                  display: 'block',
-                  marginBottom: '-12px',
-                }}
-              >
+              <span style={{ fontFamily: 'var(--font-hanken)', fontSize: '48px', lineHeight: 1, color: 'var(--forest)', opacity: 0.2, display: 'block', marginBottom: '-8px' }}>
                 "
               </span>
-              <p
-                style={{
-                  fontFamily: 'var(--font-inter)',
-                  fontSize: 'clamp(15px, 1.2vw, 17px)',
-                  lineHeight: 1.7,
-                  color: 'var(--text-inverse)',
-                  opacity: 0.75,
-                  flex: 1,
-                }}
-              >
+              <p style={{ fontFamily: 'var(--font-inter)', fontSize: 'clamp(15px, 1.2vw, 17px)', lineHeight: 1.7, color: 'var(--forest)', opacity: 0.75, flex: 1 }}>
                 {review.quote}
               </p>
               <div>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'var(--text-inverse)',
-                    marginBottom: '4px',
-                  }}
-                >
+                <p style={{ fontFamily: 'var(--font-inter)', fontSize: '14px', fontWeight: 600, color: 'var(--forest)', marginBottom: '4px' }}>
                   {review.name}
                 </p>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontSize: '12px',
-                    color: 'var(--sage)',
-                    opacity: 0.7,
-                    letterSpacing: '0.02em',
-                  }}
-                >
+                <p style={{ fontFamily: 'var(--font-inter)', fontSize: '12px', color: 'var(--forest)', opacity: 0.5, letterSpacing: '0.02em' }}>
                   {review.role}
                 </p>
               </div>
@@ -475,13 +367,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ФИНАЛЬНЫЙ CTA */}
+      {/* caramel → forest */}
+      <CurveDivider from="var(--caramel)" to="var(--forest)" variant={1} />
+
+      {/* ⑦ ФИНАЛЬНЫЙ CTA — forest */}
       <section
         className="final-cta"
         style={{
-          background: 'var(--cream)',
-          padding: 'clamp(60px, 8vh, 96px) clamp(24px, 5vw, 120px)',
-          borderTop: '1px solid var(--border-light)',
+          background: 'var(--forest)',
+          padding: 'clamp(64px, 8vh, 96px) clamp(24px, 5vw, 120px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -495,7 +389,7 @@ export default function HomePage() {
             fontSize: 'clamp(22px, 3vw, 40px)',
             fontWeight: 700,
             letterSpacing: '-0.02em',
-            color: 'var(--text-primary)',
+            color: 'var(--text-inverse)',
             lineHeight: 1.2,
           }}
         >
@@ -517,18 +411,13 @@ export default function HomePage() {
             textDecoration: 'none',
             transition: 'background 300ms ease, transform 200ms ease',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'var(--sage-dark)'
-            e.currentTarget.style.transform = 'scale(1.02)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'var(--sage)'
-            e.currentTarget.style.transform = 'scale(1)'
-          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--sage-light)'; e.currentTarget.style.transform = 'scale(1.02)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--sage)'; e.currentTarget.style.transform = 'scale(1)' }}
         >
           Начать проект
         </Link>
       </section>
+
     </div>
   )
 }
