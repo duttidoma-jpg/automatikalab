@@ -8,7 +8,7 @@ import ProcessSection from '@/components/ProcessSection'
 import CurveDivider from '@/components/CurveDivider'
 
 // Цветовой ритм главной страницы:
-// forest → cream → caramel → forest → cream → caramel → forest
+// forest → cream → forest(video) → cream → forest → cream → caramel → forest
 // Каждый переход оформлен через CurveDivider — органическая SVG-кривая
 
 export default function HomePage() {
@@ -157,14 +157,14 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* cream → caramel */}
-      <CurveDivider from="var(--cream)" to="var(--caramel)" variant={2} />
+      {/* cream → forest (ProcessSection тёмная — видео-фоны) */}
+      <CurveDivider from="var(--cream)" to="var(--forest-deep)" variant={2} />
 
-      {/* ③ ПРОЦЕСС — caramel */}
+      {/* ③ ПРОЦЕСС — тёмный фон + видео-фоны для каждого шага */}
       <ProcessSection />
 
-      {/* caramel → forest */}
-      <CurveDivider from="var(--caramel)" to="var(--forest)" variant={1} />
+      {/* forest → cream */}
+      <CurveDivider from="var(--forest-deep)" to="var(--cream)" variant={0} />
 
       {/* ④ ТЕХНОЛОГИИ — forest */}
       <section
