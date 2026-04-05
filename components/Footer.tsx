@@ -17,10 +17,40 @@ export default function Footer() {
       style={{
         background: 'var(--forest)',
         color: 'var(--text-inverse)',
-        padding: 'clamp(48px, 6vh, 80px) clamp(24px, 5vw, 120px) clamp(32px, 4vh, 48px)',
         borderTop: '1px solid rgba(244,237,230,0.08)',
+        overflow: 'hidden',
       }}
     >
+      {/* Большой типографский заголовок */}
+      <div
+        style={{
+          padding: 'clamp(48px, 6vh, 80px) clamp(24px, 5vw, 120px) 0',
+          borderBottom: '1px solid rgba(244,237,230,0.06)',
+          marginBottom: 'clamp(40px, 5vh, 64px)',
+        }}
+      >
+        <Link
+          href="/"
+          style={{
+            display: 'block',
+            fontFamily: 'var(--font-hanken, sans-serif)',
+            fontSize: 'clamp(56px, 11vw, 180px)',
+            fontWeight: 800,
+            letterSpacing: '-0.04em',
+            lineHeight: 0.88,
+            color: 'var(--text-inverse)',
+            textDecoration: 'none',
+            opacity: 0.07,
+            transition: 'opacity 500ms ease',
+            paddingBottom: 'clamp(32px, 4vh, 56px)',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.18' }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.07' }}
+        >
+          AutomatikaLab
+        </Link>
+      </div>
+
       {/* Верхняя часть */}
       <div
         className="resp-footer-top"
@@ -29,8 +59,10 @@ export default function Footer() {
           gridTemplateColumns: '1fr auto',
           gap: 'clamp(32px, 5vw, 80px)',
           alignItems: 'start',
-          marginBottom: 'clamp(40px, 5vh, 64px)',
-          paddingBottom: 'clamp(40px, 5vh, 64px)',
+          marginBottom: 'clamp(32px, 4vh, 48px)',
+          paddingBottom: 'clamp(32px, 4vh, 48px)',
+          paddingLeft: 'clamp(24px, 5vw, 120px)',
+          paddingRight: 'clamp(24px, 5vw, 120px)',
           borderBottom: '1px solid rgba(244,237,230,0.08)',
         }}
       >
@@ -178,6 +210,9 @@ export default function Footer() {
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '16px',
+          paddingLeft: 'clamp(24px, 5vw, 120px)',
+          paddingRight: 'clamp(24px, 5vw, 120px)',
+          paddingBottom: 'clamp(32px, 4vh, 48px)',
         }}
       >
         <p

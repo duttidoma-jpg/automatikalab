@@ -100,7 +100,7 @@ export default function HeroSection() {
     return () => cancelAnimationFrame(rafId)
   }, [])
 
-  // GSAP entrance — без clipPath, только opacity + y (надёжно)
+  // GSAP entrance — split-text по буквам для заголовка
   useEffect(() => {
     const ctx = { revert: () => {} }
     let timeoutId: ReturnType<typeof setTimeout>
@@ -108,29 +108,26 @@ export default function HeroSection() {
     const init = async () => {
       const { gsap } = await import('gsap')
       const gctx = gsap.context(() => {
-        gsap.timeline({ delay: 0.2 })
-          .fromTo('.hero-label',
-            { opacity: 0, y: 24 },
-            { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }
+        // Скрываем сразу через gsap.set — надёжнее чем CSS
+        gsap.set('.hero-label', { autoAlpha: 0, y: 20 })
+        gsap.set('.hero-char', { autoAlpha: 0, y: 48, rotateX: -30 })
+        gsap.set('.hero-sub', { autoAlpha: 0, y: 20 })
+        gsap.set('.hero-cta', { autoAlpha: 0, y: 16 })
+
+        gsap.timeline({ delay: 0.15 })
+          .to('.hero-label',
+            { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }
           )
-          .fromTo('.hero-line-1',
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-            '-=0.3'
+          .to('.hero-char',
+            { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.55, ease: 'power3.out', stagger: 0.022 },
+            '-=0.2'
           )
-          .fromTo('.hero-line-2',
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-            '-=0.6'
+          .to('.hero-sub',
+            { autoAlpha: 0.85, y: 0, duration: 0.7, ease: 'power2.out' },
+            '-=0.35'
           )
-          .fromTo('.hero-sub',
-            { opacity: 0, y: 20 },
-            { opacity: 0.85, y: 0, duration: 0.7, ease: 'power2.out' },
-            '-=0.4'
-          )
-          .fromTo('.hero-cta',
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+          .to('.hero-cta',
+            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' },
             '-=0.3'
           )
       }, sectionRef)
@@ -149,7 +146,7 @@ export default function HeroSection() {
       ref={sectionRef}
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         minHeight: '700px',
         overflow: 'hidden',
         display: 'flex',
@@ -236,9 +233,9 @@ export default function HeroSection() {
           АВТОМАТИЗАЦИЯ / 2026
         </p>
 
-        <h1 style={{ marginBottom: '32px' }}>
+        <h1 style={{ marginBottom: '32px', perspective: '600px' }}>
+          {/* Строка 1 — разбита по буквам для stagger-анимации */}
           <span
-            className="hero-line-1"
             style={{
               display: 'block',
               fontFamily: 'var(--font-hanken)',
@@ -248,10 +245,12 @@ export default function HeroSection() {
               letterSpacing: '-0.04em',
             }}
           >
-            Автоматизация
+            {'Автоматизация'.split('').map((char, i) => (
+              <span key={i} className="hero-char" style={{ display: 'inline-block' }}>{char}</span>
+            ))}
           </span>
+          {/* Строка 2 — курсив */}
           <span
-            className="hero-line-2"
             style={{
               display: 'block',
               fontFamily: 'var(--font-hanken)',
@@ -262,7 +261,9 @@ export default function HeroSection() {
               fontStyle: 'italic',
             }}
           >
-            будущего
+            {'будущего'.split('').map((char, i) => (
+              <span key={i} className="hero-char" style={{ display: 'inline-block' }}>{char}</span>
+            ))}
           </span>
         </h1>
 

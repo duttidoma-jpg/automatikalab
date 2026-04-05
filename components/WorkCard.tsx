@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -26,13 +26,29 @@ export default function WorkCard({
   soon = false,
 }: WorkCardProps) {
   const [hovered, setHovered] = useState(false)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const cardRef = useRef<HTMLAnchorElement>(null)
+
+  const onMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5   // -0.5 to 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    setTilt({ x: y * -6, y: x * 6 })                       // ±6 градусов
+  }
+
+  const onMouseLeave = () => {
+    setHovered(false)
+    setTilt({ x: 0, y: 0 })
+  }
 
   return (
     <Link
+      ref={cardRef}
       href={href}
       data-cursor="card"
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
       style={{
         display: 'block',
         position: 'relative',
@@ -42,6 +58,14 @@ export default function WorkCard({
         textDecoration: 'none',
         color: 'var(--text-inverse)',
         background: bg,
+        perspective: '1000px',
+        transform: hovered
+          ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.015)`
+          : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
+        transition: hovered
+          ? 'transform 100ms ease-out'
+          : 'transform 500ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+        willChange: 'transform',
       }}
     >
       {/* Фоновое изображение или цвет */}

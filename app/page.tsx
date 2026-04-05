@@ -5,6 +5,7 @@ import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import WorkCard from '@/components/WorkCard'
 import ProcessSection from '@/components/ProcessSection'
+import MarqueeStrip from '@/components/MarqueeStrip'
 
 export default function HomePage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -77,6 +78,9 @@ export default function HomePage() {
     <div ref={pageRef}>
       {/* HERO */}
       <HeroSection />
+
+      {/* MARQUEE — разделитель между Hero и Манифестом */}
+      <MarqueeStrip inverted />
 
       {/* МАНИФЕСТ */}
       <section
@@ -152,6 +156,9 @@ export default function HomePage() {
 
       {/* КАК МЫ РАБОТАЕМ — pinned scroll-driven секция */}
       <ProcessSection />
+
+      {/* MARQUEE — разделитель между Процессом и Технологиями */}
+      <MarqueeStrip />
 
       {/* ТЕХНОЛОГИИ — агентная автоматизация */}
       <section
