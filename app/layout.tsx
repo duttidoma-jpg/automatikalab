@@ -5,6 +5,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CustomCursor from '@/components/CustomCursor'
 import PageTransition from '@/components/PageTransition'
+import SmoothScroll from '@/components/SmoothScroll'
 
 // Шрифт для заголовков — editorial grotesque характер
 const hanken = Hanken_Grotesk({
@@ -67,6 +68,8 @@ export default function RootLayout({
       className={`${hanken.variable} ${inter.variable}`}
     >
       <body>
+        {/* Плавный скролл — Lenis */}
+        <SmoothScroll />
         {/* Кастомный курсор — рендерится поверх всего */}
         <CustomCursor />
         {/* Навигация — fixed, z-50 */}

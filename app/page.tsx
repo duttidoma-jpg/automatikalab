@@ -5,11 +5,8 @@ import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import WorkCard from '@/components/WorkCard'
 import ProcessSection from '@/components/ProcessSection'
-import CurveDivider from '@/components/CurveDivider'
-
 // Цветовой ритм главной страницы:
-// forest → cream → forest(video) → cream → forest → cream → caramel → forest
-// Каждый переход оформлен через CurveDivider — органическая SVG-кривая
+// forest → cream → forest-deep(video) → forest → cream → forest
 
 export default function HomePage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -80,9 +77,6 @@ export default function HomePage() {
 
       {/* ① HERO — forest */}
       <HeroSection />
-
-      {/* forest → cream */}
-      <CurveDivider from="var(--forest)" to="var(--cream)" variant={0} />
 
       {/* ② МАНИФЕСТ — cream */}
       <section
@@ -157,14 +151,8 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* cream → forest (ProcessSection тёмная — видео-фоны) */}
-      <CurveDivider from="var(--cream)" to="var(--forest-deep)" variant={2} />
-
       {/* ③ ПРОЦЕСС — тёмный фон + видео-фоны для каждого шага */}
       <ProcessSection />
-
-      {/* forest → cream */}
-      <CurveDivider from="var(--forest-deep)" to="var(--cream)" variant={0} />
 
       {/* ④ ТЕХНОЛОГИИ — forest */}
       <section
@@ -256,9 +244,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* forest → cream */}
-      <CurveDivider from="var(--forest)" to="var(--cream)" variant={2} />
-
       {/* ⑤ РАБОТЫ — cream */}
       <section
         className="works-section"
@@ -305,70 +290,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* cream → caramel */}
-      <CurveDivider from="var(--cream)" to="var(--caramel)" variant={0} />
-
-      {/* ⑥ ОТЗЫВЫ — caramel */}
-      <section
-        style={{
-          background: 'var(--caramel)',
-          padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 120px)',
-        }}
-      >
-        <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--forest)', opacity: 0.6, marginBottom: '48px' }}>
-          Что говорят клиенты
-        </p>
-
-        <div className="resp-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px' }}>
-          {[
-            {
-              quote: 'Ребята сделали нам Telegram-бота для приёма заказов за 4 дня. До этого менеджеры тратили 3 часа в день только на обработку входящих. Теперь — ноль.',
-              name: 'Алексей К.',
-              role: 'Владелец ресторанной сети · Алматы',
-            },
-            {
-              quote: 'Объяснил задачу один раз — получил готовый AI-ассистент для команды. Никаких лишних вопросов, никаких сюрпризов. Работает стабильно уже полгода.',
-              name: 'Дмитрий Е.',
-              role: 'CTO · IT-компания · Астана',
-            },
-            {
-              quote: 'Сайт сделали с нуля за 2 недели. Дизайн лучше чем у конкурентов, которые тратили месяцы. Ещё и объяснили как всё работает — не оставили один на один.',
-              name: 'Марина С.',
-              role: 'Директор по маркетингу · E-commerce',
-            },
-          ].map((review) => (
-            <div
-              key={review.name}
-              style={{
-                padding: 'clamp(28px, 4vw, 44px)',
-                borderLeft: '1px solid rgba(46,58,31,0.2)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px',
-              }}
-            >
-              <span style={{ fontFamily: 'var(--font-hanken)', fontSize: '48px', lineHeight: 1, color: 'var(--forest)', opacity: 0.2, display: 'block', marginBottom: '-8px' }}>
-                "
-              </span>
-              <p style={{ fontFamily: 'var(--font-inter)', fontSize: 'clamp(15px, 1.2vw, 17px)', lineHeight: 1.7, color: 'var(--forest)', opacity: 0.75, flex: 1 }}>
-                {review.quote}
-              </p>
-              <div>
-                <p style={{ fontFamily: 'var(--font-inter)', fontSize: '14px', fontWeight: 600, color: 'var(--forest)', marginBottom: '4px' }}>
-                  {review.name}
-                </p>
-                <p style={{ fontFamily: 'var(--font-inter)', fontSize: '12px', color: 'var(--forest)', opacity: 0.5, letterSpacing: '0.02em' }}>
-                  {review.role}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* caramel → forest */}
-      <CurveDivider from="var(--caramel)" to="var(--forest)" variant={1} />
 
       {/* ⑦ ФИНАЛЬНЫЙ CTA — forest */}
       <section
