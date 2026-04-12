@@ -225,17 +225,7 @@ export default function Footer() {
         >
           © {year} AutomatikaLab
         </p>
-        <p
-          style={{
-            fontFamily: 'var(--font-inter, sans-serif)',
-            fontSize: '13px',
-            color: 'var(--text-inverse)',
-            opacity: 0.25,
-          }}
-        >
-          Привет, Ардак 👋
-        </p>
-        <p
+<p
           style={{
             fontFamily: 'var(--font-hanken, sans-serif)',
             fontSize: '13px',
