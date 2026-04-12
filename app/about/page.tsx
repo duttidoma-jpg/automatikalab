@@ -294,9 +294,9 @@ export default function AboutPage() {
                 marginBottom: '24px',
               }}
             >
-              Стек подбирается под задачу: Python и aiogram для ботов,
-              Next.js и GSAP для сайтов, FastAPI для API, Claude и GPT-4
-              для AI-продуктов.
+              Инструменты подбираются под задачу, а не наоборот.
+              Работаем с тем, что даёт результат сегодня — и не держимся
+              за то, что вчера было стандартом.
             </p>
             <p
               style={{
@@ -306,11 +306,132 @@ export default function AboutPage() {
                 color: 'var(--text-secondary)',
               }}
             >
-              Используем AI-агентов в собственном процессе — не как маркетинг,
-              а как реальный инструмент. Это позволяет работать быстрее
-              без потери в качестве.
+              Широкий стек — от автоматизации и AI-агентов до
+              веб-разработки и видеопродакшна. Всё, что нужно для
+              результата — под одной крышей.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* AI-FIRST — агентная студия */}
+      <section
+        className="about-block"
+        style={{
+          background: 'var(--forest)',
+          padding: 'clamp(80px, 12vh, 140px) clamp(24px, 5vw, 120px)',
+        }}
+      >
+        {/* Лид */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 'clamp(48px, 6vw, 96px)',
+            alignItems: 'end',
+            marginBottom: 'clamp(64px, 10vh, 100px)',
+          }}
+        >
+          <div>
+            <p
+              style={{
+                fontFamily: 'var(--font-inter)',
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--sage)',
+                marginBottom: '32px',
+              }}
+            >
+              Агентная студия
+            </p>
+            <h2
+              style={{
+                fontFamily: 'var(--font-hanken)',
+                fontSize: 'clamp(36px, 5vw, 72px)',
+                fontWeight: 800,
+                lineHeight: 1.0,
+                letterSpacing: '-0.04em',
+                color: 'var(--text-inverse)',
+              }}
+            >
+              Люди задают<br />
+              <span style={{ fontStyle: 'italic', color: 'var(--sage-light)' }}>
+                направление.
+              </span>
+              <br />Агенты делают<br />работу.
+            </h2>
+          </div>
+          <p
+            style={{
+              fontFamily: 'var(--font-inter)',
+              fontSize: 'clamp(16px, 1.4vw, 19px)',
+              lineHeight: 1.7,
+              color: 'var(--text-inverse)',
+              opacity: 0.6,
+              maxWidth: '480px',
+            }}
+          >
+            Мы не нанимаем людей под каждую задачу — мы строим агентов.
+            Каждый проект проходит через систему специализированных AI-агентов:
+            от брифа до деплоя.
+          </p>
+        </div>
+
+        {/* Три принципа */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {[
+            {
+              title: 'Автономно',
+              desc: 'Процессы работают без ручного вмешательства — агенты обрабатывают, проверяют и передают задачи дальше сами.',
+            },
+            {
+              title: 'С первого дня',
+              desc: 'Автоматизация встроена в процесс, а не добавлена в конце. Каждый проект мы строим так, чтобы он работал без нас.',
+            },
+            {
+              title: 'Внутри и снаружи',
+              desc: 'Мы автоматизируем себя так же, как автоматизируем клиентов. Это не маркетинг — это то, как устроена студия.',
+            },
+          ].map((item, i) => (
+            <div
+              key={item.title}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '200px 1fr',
+                gap: '40px',
+                alignItems: 'start',
+                padding: 'clamp(24px, 3vh, 36px) 0',
+                borderTop: '1px solid rgba(244,237,230,0.1)',
+                ...(i === 2 ? { borderBottom: '1px solid rgba(244,237,230,0.1)' } : {}),
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--font-hanken)',
+                  fontSize: 'clamp(20px, 2vw, 28px)',
+                  fontWeight: 700,
+                  letterSpacing: '-0.02em',
+                  color: 'var(--sage)',
+                }}
+              >
+                {item.title}
+              </span>
+              <p
+                style={{
+                  fontFamily: 'var(--font-inter)',
+                  fontSize: 'clamp(14px, 1.2vw, 16px)',
+                  lineHeight: 1.65,
+                  color: 'var(--text-inverse)',
+                  opacity: 0.55,
+                  paddingTop: '4px',
+                }}
+              >
+                {item.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 

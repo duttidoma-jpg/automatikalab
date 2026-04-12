@@ -13,9 +13,10 @@ const projects = [
     location: 'Сочи',
     description:
       'Фудкорт с четырьмя кухнями под одной крышей. Разработали сайт с системой онлайн-заказов и автоматизированной обработкой заказов — рейтинг 4.9 с 1700+ отзывов.',
-    tags: ['Next.js', 'Telegram-бот', 'Автоматизация'],
+    tags: [],
     hasImage: true,
     imageSrc: '/images/foodcourt.jpg',
+    imageBg: '#1a1a1a',
     href: 'https://atmosferafood.ru',
     external: true,
   },
@@ -27,9 +28,10 @@ const projects = [
     location: 'Корпоративный',
     description:
       'Универсальная AI-система для работы с данными. Внедряется в любой бизнес: анализирует документы, отвечает на запросы, автоматизирует рутину. Первый кейс — корпоративная среда банка.',
-    tags: ['Claude API', 'RAG', 'Python'],
+    tags: [],
     hasImage: true,
     imageSrc: '/images/office-assistant.png',
+    imageBg: '#f0ede8',
     href: '#',
     external: false,
   },
@@ -143,6 +145,7 @@ export default function WorkPage() {
                 overflow: 'hidden',
                 borderRadius: 0,
                 width: '100%',
+                background: project.imageBg ?? 'var(--forest)',
               }}
             >
               {project.hasImage ? (
@@ -150,7 +153,7 @@ export default function WorkPage() {
                   src={project.imageSrc!}
                   alt={project.title}
                   fill
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'contain', objectPosition: 'center' }}
                   sizes="50vw"
                 />
               ) : (
@@ -242,26 +245,6 @@ export default function WorkPage() {
                 {project.description}
               </p>
 
-              {/* Теги */}
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '32px' }}>
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    style={{
-                      padding: '6px 14px',
-                      border: '1px solid var(--border-light)',
-                      borderRadius: '9999px',
-                      fontFamily: 'var(--font-inter)',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      color: 'var(--text-secondary)',
-                      letterSpacing: '0.02em',
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
 
               {project.external && (
                 <Link

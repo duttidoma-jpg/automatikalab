@@ -5,6 +5,7 @@ import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import WorkCard from '@/components/WorkCard'
 import ProcessSection from '@/components/ProcessSection'
+import TechSection from '@/components/TechSection'
 // Цветовой ритм главной страницы:
 // forest → cream → forest-deep(video) → forest → cream → forest
 
@@ -155,94 +156,7 @@ export default function HomePage() {
       <ProcessSection />
 
       {/* ④ ТЕХНОЛОГИИ — forest */}
-      <section
-        style={{
-          background: 'var(--forest)',
-          padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 120px)',
-        }}
-      >
-        <div
-          className="resp-grid-2"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 'clamp(48px, 6vw, 96px)',
-            alignItems: 'center',
-          }}
-        >
-          <div>
-            <p
-              style={{
-                fontFamily: 'var(--font-inter)',
-                fontSize: '13px',
-                fontWeight: 500,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--sage)',
-                marginBottom: '24px',
-              }}
-            >
-              Технологии
-            </p>
-            <h2
-              style={{
-                fontFamily: 'var(--font-hanken)',
-                fontSize: 'clamp(32px, 4vw, 56px)',
-                fontWeight: 800,
-                letterSpacing: '-0.03em',
-                lineHeight: 1.05,
-                color: 'var(--text-inverse)',
-                marginBottom: '28px',
-              }}
-            >
-              Автоматизация внутри нашей автоматизации
-            </h2>
-            <p
-              style={{
-                fontFamily: 'var(--font-inter)',
-                fontSize: 'clamp(15px, 1.3vw, 18px)',
-                lineHeight: 1.7,
-                color: 'var(--text-inverse)',
-                opacity: 0.65,
-                maxWidth: '480px',
-              }}
-            >
-              Мы используем AI-агентов в собственном процессе разработки.
-              Это не маркетинг — это то, как мы работаем каждый день.
-              Быстрее, точнее, без потери в качестве.
-            </p>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            {[
-              { label: 'Агентный пайплайн', desc: 'Каждый проект проходит через систему специализированных AI-агентов — от брифа до деплоя' },
-              { label: 'Параллельная разработка', desc: 'Дизайн, бэкенд и фронтенд строятся одновременно. Мы не ждём — мы делаем' },
-              { label: 'Автоматическое тестирование', desc: 'Проверка качества встроена в процесс, а не добавлена в конце' },
-              { label: 'Живые инструменты', desc: 'Claude, GPT-4, Higgsfield, GSAP — мы работаем с тем, что даёт результат сегодня' },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="tech-table-row"
-                style={{
-                  padding: '20px 24px',
-                  borderTop: '1px solid rgba(244,237,230,0.08)',
-                  display: 'grid',
-                  gridTemplateColumns: '180px 1fr',
-                  gap: '24px',
-                  alignItems: 'start',
-                }}
-              >
-                <span style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: 500, color: 'var(--sage)', letterSpacing: '0.01em', paddingTop: '2px' }}>
-                  {item.label}
-                </span>
-                <span style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', lineHeight: 1.6, color: 'var(--text-inverse)', opacity: 0.55 }}>
-                  {item.desc}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TechSection />
 
       {/* ⑤ РАБОТЫ — cream */}
       <section
