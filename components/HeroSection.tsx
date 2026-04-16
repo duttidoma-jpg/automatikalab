@@ -310,7 +310,7 @@ export default function HeroSection() {
 
         <div className="hero-cta" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <Link
-            href="https://t.me/automatikagroup"
+            href="https://t.me/Automaticalabbot"
             target="_blank"
             rel="noopener noreferrer"
             style={{

@@ -117,7 +117,7 @@ export default function ContactPage() {
         {/* Telegram */}
         <a
           className="c-cta"
-          href="https://t.me/automatikagroup"
+          href="https://t.me/Automaticalabbot"
           target="_blank"
           rel="noopener noreferrer"
           style={{
