@@ -215,16 +215,33 @@ export default function Footer() {
           paddingBottom: 'clamp(32px, 4vh, 48px)',
         }}
       >
-        <p
-          style={{
-            fontFamily: 'var(--font-inter, sans-serif)',
-            fontSize: '13px',
-            color: 'var(--text-inverse)',
-            opacity: 0.3,
-          }}
-        >
-          © {year} AutomatikaLab
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+          <p
+            style={{
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '13px',
+              color: 'var(--text-inverse)',
+              opacity: 0.3,
+            }}
+          >
+            © {year} AutomatikaLab
+          </p>
+          <Link
+            href="/privacy"
+            style={{
+              fontFamily: 'var(--font-inter, sans-serif)',
+              fontSize: '13px',
+              color: 'var(--text-inverse)',
+              textDecoration: 'none',
+              opacity: 0.3,
+              transition: 'opacity 200ms ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.7' }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.3' }}
+          >
+            Политика конфиденциальности
+          </Link>
+        </div>
 <p
           style={{
             fontFamily: 'var(--font-hanken, sans-serif)',

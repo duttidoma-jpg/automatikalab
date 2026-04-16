@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import CustomCursor from '@/components/CustomCursor'
 import PageTransition from '@/components/PageTransition'
 import SmoothScroll from '@/components/SmoothScroll'
+import AgentStatusWidget from '@/components/AgentStatusWidget'
 
 // Шрифт для заголовков — editorial grotesque характер
 const hanken = Hanken_Grotesk({
@@ -80,6 +81,8 @@ export default function RootLayout({
         </main>
         {/* Футер */}
         <Footer />
+        {/* Виджет статуса агентов — fixed bottom-right */}
+        <AgentStatusWidget />
       </body>
     </html>
   )
