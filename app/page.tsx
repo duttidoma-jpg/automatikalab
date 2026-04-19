@@ -197,7 +197,7 @@ export default function HomePage() {
 
         <div className="works-grid resp-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
           <div className="works-preview-card">
-            <WorkCard title="Атмосфера Фудкорт" category="Сайт + Автоматизация" year="2024" bg="var(--forest)" imageSrc="/images/foodcourt.jpg" href="/work" featured />
+            <WorkCard title="KvaKva" category="Тревел-платформа" year="2025" bg="var(--forest)" imageSrc="/images/kvakva.jpg" href="https://kvakva.vercel.app" featured />
           </div>
           <div className="works-preview-card">
             <WorkCard title="Office Assistant" category="AI-ассистент" year="2025" bg="var(--forest-light)" imageSrc="/images/office-assistant.png" href="/work" featured />

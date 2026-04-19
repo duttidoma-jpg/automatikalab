@@ -21,6 +21,21 @@ const projects = [
     external: true,
   },
   {
+    id: 'kvakva',
+    title: 'KvaKva',
+    category: 'Тревел-платформа',
+    year: '2025',
+    location: 'СНГ',
+    description:
+      'Всё что нужно путешественнику в одном месте. Планирование маршрутов, поиск дешёвых билетов, бронирование отелей, ивент-туры и AI-ассистент для сборки идеальной поездки.',
+    tags: [],
+    hasImage: true,
+    imageSrc: '/images/kvakva.jpg',
+    imageBg: '#1a2533',
+    href: 'https://kvakva.vercel.app',
+    external: true,
+  },
+  {
     id: 'office-assistant',
     title: 'Office Assistant',
     category: 'AI-ассистент',

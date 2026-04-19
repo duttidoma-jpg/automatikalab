@@ -326,7 +326,7 @@ function ProcessDesktop() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top top',
-            end: `+=${STEPS.length * 150}vh`,
+            end: `+=${STEPS.length * 280}vh`,
             pin: true,
             scrub: 1.2,
             onUpdate: (self) => {
