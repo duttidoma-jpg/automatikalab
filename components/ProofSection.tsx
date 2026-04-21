@@ -69,7 +69,7 @@ export default function ProofSection() {
     <>
       {/* ─── СЕКЦИЯ СРАВНЕНИЯ ─── */}
       <section ref={sectionRef} style={{ overflow: 'hidden' }}>
-        <div style={{
+        <div className="proof-section-inner" style={{
           display: 'flex',
           minHeight: 'clamp(480px, 58vh, 680px)',
         }}>
@@ -154,7 +154,7 @@ export default function ProofSection() {
               src="/images/frog-mascot.png"
               alt=""
               aria-hidden="true"
-              className="frog-bounce"
+              className="frog-bounce proof-frog"
               style={{
                 position: 'absolute',
                 right: 'clamp(16px, 5%, 48px)',
