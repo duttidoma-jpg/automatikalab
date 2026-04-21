@@ -1,11 +1,15 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import WorkCard from '@/components/WorkCard'
 import ProcessSection from '@/components/ProcessSection'
+import ProofSection from '@/components/ProofSection'
 import TechSection from '@/components/TechSection'
+
+const MorphingGeometry = dynamic(() => import('@/components/MorphingGeometry'), { ssr: false })
 // Цветовой ритм главной страницы:
 // forest → cream → forest-deep(video) → forest → cream → forest
 
@@ -85,72 +89,86 @@ export default function HomePage() {
         style={{
           background: 'var(--cream)',
           color: 'var(--text-primary)',
-          padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 120px)',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          minHeight: 'clamp(480px, 60vh, 700px)',
+          overflow: 'hidden',
         }}
       >
-        <p
-          className="manifest-line"
-          style={{
-            fontFamily: 'var(--font-inter)',
-            fontSize: '13px',
-            fontWeight: 500,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: 'var(--sage)',
-            marginBottom: '48px',
-          }}
-        >
-          Наш манифест
-        </p>
+        {/* Левый столбец — текст */}
+        <div style={{ padding: 'clamp(64px, 10vh, 128px) clamp(24px, 5vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <p
+            className="manifest-line"
+            style={{
+              fontFamily: 'var(--font-inter)',
+              fontSize: '13px',
+              fontWeight: 500,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--sage)',
+              marginBottom: '48px',
+            }}
+          >
+            Наш манифест
+          </p>
 
-        <div>
-          <span
+          <div>
+            <span
+              className="manifest-line"
+              style={{
+                display: 'block',
+                fontFamily: 'var(--font-hanken)',
+                fontSize: 'clamp(32px, 4vw, 64px)',
+                fontWeight: 800,
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Будущее — не страшно.
+            </span>
+            <span
+              className="manifest-line"
+              style={{
+                display: 'block',
+                fontFamily: 'var(--font-hanken)',
+                fontSize: 'clamp(32px, 4vw, 64px)',
+                fontWeight: 800,
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+                fontStyle: 'italic',
+                color: 'var(--forest)',
+              }}
+            >
+              Мы проведём за руку.
+            </span>
+          </div>
+
+          <p
             className="manifest-line"
             style={{
-              display: 'block',
-              fontFamily: 'var(--font-hanken)',
-              fontSize: 'clamp(36px, 5vw, 72px)',
-              fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-              color: 'var(--text-primary)',
+              fontFamily: 'var(--font-inter)',
+              fontSize: 'clamp(14px, 1.2vw, 17px)',
+              lineHeight: 1.65,
+              color: 'var(--text-secondary)',
+              maxWidth: '440px',
+              marginTop: '40px',
             }}
           >
-            Будущее — не страшно.
-          </span>
-          <span
-            className="manifest-line"
-            style={{
-              display: 'block',
-              fontFamily: 'var(--font-hanken)',
-              fontSize: 'clamp(36px, 5vw, 72px)',
-              fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-              fontStyle: 'italic',
-              color: 'var(--forest)',
-            }}
-          >
-            Мы проведём за руку.
-          </span>
+            Автоматизация — это не технология ради технологии.
+            Это конкурентное преимущество, которое работает прямо сейчас,
+            пока другие ещё принимают решение.
+          </p>
         </div>
 
-        <p
-          className="manifest-line"
-          style={{
-            fontFamily: 'var(--font-inter)',
-            fontSize: 'clamp(15px, 1.4vw, 19px)',
-            lineHeight: 1.65,
-            color: 'var(--text-secondary)',
-            maxWidth: '540px',
-            marginTop: '40px',
-          }}
-        >
-          Автоматизация — это не технология ради технологии.
-          Это конкурентное преимущество, которое работает прямо сейчас,
-          пока другие ещё принимают решение.
-        </p>
+        {/* Правый столбец — 3D анимация */}
+        <div className="manifest-3d" style={{ position: 'relative', background: 'var(--cream)' }}>
+          <MorphingGeometry />
+        </div>
       </section>
+
+      {/* ② b ДОКАЗАТЕЛЬСТВО */}
+      <ProofSection />
 
       {/* ③ ПРОЦЕСС — тёмный фон + видео-фоны для каждого шага */}
       <ProcessSection />

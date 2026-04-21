@@ -256,6 +256,55 @@ body {
   to   { transform: translateX(-50%); }
 }
 
+/* ─── Стрелка на KvaKva ─────────────────────────────────────────────────── */
+@keyframes arrow-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes arrow-bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+@keyframes arrow-draw {
+  from { stroke-dashoffset: 200; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.proof-arrow-svg {
+  animation: arrow-fadein 0.6s ease 0.3s both, arrow-bob 2.8s ease-in-out 1s infinite;
+}
+
+.proof-arrow-path {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: arrow-draw 1.1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+}
+
+.proof-arrow-label {
+  animation: arrow-fadein 0.5s ease 1.2s both;
+}
+
+@keyframes frog-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%       { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes arrow-pulse {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50%       { opacity: 1;   transform: translateY(3px); }
+}
+
+.frog-bounce {
+  animation: frog-float 2.2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.frog-arrow {
+  animation: arrow-pulse 2.2s ease-in-out infinite;
+}
+
 /* prefers-reduced-motion — уважаем настройку пользователя */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -363,5 +412,31 @@ body {
   .project-image-wrap {
     width: 100% !important;
     max-width: 100% !important;
+  }
+
+  /* ---- ManifestSection: скрываем 3D на мобильном ---- */
+  .manifest-section {
+    grid-template-columns: 1fr !important;
+  }
+  .manifest-3d {
+    display: none !important;
+  }
+
+  /* ---- ProofSection: стопка без clip-path ---- */
+  .proof-left {
+    flex: none !important;
+    clip-path: none !important;
+    padding: 48px 24px !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .proof-right {
+    padding: 48px 24px !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .proof-item {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
