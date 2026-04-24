@@ -2,25 +2,31 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-
-const navLinks = [
-  { href: '/work', label: 'Работы' },
-  { href: '/services', label: 'Услуги' },
-  { href: '/about', label: 'О нас' },
-  { href: '/contact', label: 'Контакт' },
-]
+import { usePathname, useRouter } from 'next/navigation'
+import { useTranslations, useLocale } from 'next-intl'
 
 export default function Nav() {
+  const t = useTranslations('nav')
+  const locale = useLocale()
+  const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const menuRef = useRef<HTMLDivElement>(null)
   const menuEverOpened = useRef(false)
 
-  const isHome = pathname === '/'
+  // Убираем /en префикс для проверки активной ссылки
+  const cleanPath = locale === 'en' ? pathname.replace(/^\/en/, '') || '/' : pathname
 
-  // Закрываем меню при смене маршрута
+  const isHome = cleanPath === '/'
+
+  const navLinks = [
+    { href: '/work',     label: t('work') },
+    { href: '/services', label: t('services') },
+    { href: '/about',    label: t('about') },
+    { href: '/contact',  label: t('contact') },
+  ]
+
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
@@ -32,13 +38,11 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Блокируем скролл body когда меню открыто
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  // GSAP анимация мобильного меню
   useEffect(() => {
     const animate = async () => {
       if (!menuRef.current) return
@@ -49,28 +53,27 @@ export default function Nav() {
       if (menuOpen) {
         menuEverOpened.current = true
         menuRef.current.style.display = 'flex'
-        gsap.fromTo(menuRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.35, ease: 'power2.out' }
-        )
-        gsap.fromTo('.mobile-nav-link',
-          { opacity: 0, y: 24 },
-          { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out', delay: 0.1 }
-        )
+        gsap.fromTo(menuRef.current, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' })
+        gsap.fromTo('.mobile-nav-link', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out', delay: 0.1 })
       } else if (menuEverOpened.current) {
         gsap.to(menuRef.current, {
           opacity: 0, duration: 0.28, ease: 'power2.in',
-          onComplete: () => {
-            if (menuRef.current) menuRef.current.style.display = 'none'
-          },
+          onComplete: () => { if (menuRef.current) menuRef.current.style.display = 'none' },
         })
       }
     }
     animate()
   }, [menuOpen])
 
+  // Переключение языка — hard navigation чтобы next-intl перезагрузил locale-контекст
+  const switchLocale = (newLocale: 'ru' | 'en') => {
+    if (newLocale === locale) return
+    const pathWithoutLocale = locale === 'en' ? pathname.replace(/^\/en/, '') || '/' : pathname
+    const newPath = newLocale === 'en' ? `/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}` : pathWithoutLocale
+    window.location.href = newPath
+  }
+
   const isTransparent = isHome && !scrolled
-  // Когда меню открыто — текст всегда белый (поверх тёмного оверлея)
   const textColor = menuOpen || isTransparent ? 'var(--text-inverse)' : 'var(--text-primary)'
   const bgColor = menuOpen ? 'transparent' : (isTransparent ? 'transparent' : 'rgba(244, 237, 230, 0.92)')
   const blurStyle = !menuOpen && !isTransparent ? 'blur(20px) saturate(1.5)' : 'none'
@@ -82,7 +85,7 @@ export default function Nav() {
         style={{
           position: 'fixed',
           top: 0, left: 0, right: 0,
-          zIndex: 1000,
+          zIndex: 30, /* --z-sticky */
           height: scrolled ? '60px' : '80px',
           padding: '0 clamp(24px, 5vw, 120px)',
           display: 'flex',
@@ -99,16 +102,7 @@ export default function Nav() {
         {/* Логотип */}
         <Link
           href="/"
-          style={{
-            fontFamily: 'var(--font-hanken, sans-serif)',
-            fontSize: '18px',
-            fontWeight: 600,
-            textDecoration: 'none',
-            color: 'inherit',
-            letterSpacing: '-0.01em',
-            position: 'relative',
-            zIndex: 1,
-          }}
+          style={{ fontFamily: 'var(--font-hanken, sans-serif)', fontSize: '18px', fontWeight: 600, textDecoration: 'none', color: 'inherit', letterSpacing: '-0.01em', position: 'relative', zIndex: 1 }}
         >
           AutomatikaLab
         </Link>
@@ -119,177 +113,114 @@ export default function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              style={{
-                fontFamily: 'var(--font-inter, sans-serif)',
-                fontSize: '15px',
-                fontWeight: pathname === link.href ? 500 : 400,
-                letterSpacing: '0.02em',
-                textDecoration: 'none',
-                color: 'inherit',
-                opacity: pathname === link.href ? 1 : 0.7,
-                transition: 'opacity 200ms ease',
-              }}
+              style={{ fontFamily: 'var(--font-inter, sans-serif)', fontSize: '15px', fontWeight: cleanPath === link.href ? 500 : 400, letterSpacing: '0.02em', textDecoration: 'none', color: 'inherit', opacity: cleanPath === link.href ? 1 : 0.7, transition: 'opacity 200ms ease' }}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = '1' }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = pathname === link.href ? '1' : '0.7'
-              }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = cleanPath === link.href ? '1' : '0.7' }}
             >
               {link.label}
             </Link>
           ))}
         </div>
 
-        {/* Desktop: CTA кнопка */}
-        <Link
-          href="/contact"
-          className="nav-cta-desktop"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            padding: '10px 24px',
-            border: '1px solid var(--sage)',
-            borderRadius: '9999px',
-            fontSize: '14px',
-            fontWeight: 500,
-            letterSpacing: '0.02em',
-            textDecoration: 'none',
-            color: isTransparent ? 'var(--text-inverse)' : 'var(--text-primary)',
-            transition: 'background 350ms ease, color 350ms ease',
-            background: 'transparent',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'var(--sage)'
-            e.currentTarget.style.color = 'var(--forest)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.color = isTransparent ? 'var(--text-inverse)' : 'var(--text-primary)'
-          }}
-        >
-          Начать проект
-        </Link>
+        {/* Desktop: правая часть — CTA + переключатель языка */}
+        <div className="nav-links-desktop" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {/* Переключатель языка */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            {(['ru', 'en'] as const).map((loc, i) => (
+              <button
+                key={loc}
+                onClick={() => switchLocale(loc)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: '4px 8px',
+                  cursor: locale === loc ? 'default' : 'pointer',
+                  fontFamily: 'var(--font-inter, sans-serif)',
+                  fontSize: '13px',
+                  fontWeight: locale === loc ? 600 : 400,
+                  color: locale === loc ? (isTransparent ? 'var(--text-inverse)' : 'var(--text-primary)') : (isTransparent ? 'rgba(244,237,230,0.45)' : 'var(--text-muted)'),
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  transition: 'color 200ms ease',
+                  opacity: locale === loc ? 1 : 0.6,
+                  borderRight: i === 0 ? '1px solid currentColor' : 'none',
+                  borderRadius: 0,
+                  lineHeight: 1,
+                }}
+                onMouseEnter={(e) => { if (locale !== loc) e.currentTarget.style.opacity = '1' }}
+                onMouseLeave={(e) => { if (locale !== loc) e.currentTarget.style.opacity = '0.6' }}
+              >
+                {loc.toUpperCase()}
+              </button>
+            ))}
+          </div>
 
-        {/* Mobile: бургер-кнопка */}
+          {/* CTA */}
+          <Link
+            href="/contact"
+            style={{ display: 'inline-flex', alignItems: 'center', padding: '10px 24px', border: '1px solid var(--sage)', borderRadius: '9999px', fontSize: '14px', fontWeight: 500, letterSpacing: '0.02em', textDecoration: 'none', color: isTransparent ? 'var(--text-inverse)' : 'var(--text-primary)', transition: 'background 350ms ease, color 350ms ease', background: 'transparent' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--sage)'; e.currentTarget.style.color = 'var(--forest)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isTransparent ? 'var(--text-inverse)' : 'var(--text-primary)' }}
+          >
+            {t('cta')}
+          </Link>
+        </div>
+
+        {/* Mobile: бургер */}
         <button
           className="nav-burger"
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
-          style={{
-            display: 'none', // показывается через CSS media query
-            flexDirection: 'column',
-            justifyContent: 'center',
-            gap: '5px',
-            background: 'none',
-            border: 'none',
-            padding: '8px',
-            position: 'relative',
-            zIndex: 1,
-          }}
+          aria-label={menuOpen ? t('menuClose') : t('menuOpen')}
+          style={{ display: 'none', flexDirection: 'column', justifyContent: 'center', gap: '5px', background: 'none', border: 'none', padding: '8px', position: 'relative', zIndex: 1 }}
         >
-          <span style={{
-            display: 'block', width: '24px', height: '1.5px',
-            background: textColor,
-            transition: 'transform 300ms ease',
-            transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none',
-          }} />
-          <span style={{
-            display: 'block', width: '24px', height: '1.5px',
-            background: textColor,
-            transition: 'opacity 300ms ease',
-            opacity: menuOpen ? 0 : 1,
-          }} />
-          <span style={{
-            display: 'block', width: '24px', height: '1.5px',
-            background: textColor,
-            transition: 'transform 300ms ease',
-            transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none',
-          }} />
+          <span style={{ display: 'block', width: '24px', height: '1.5px', background: textColor, transition: 'transform 300ms ease', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }} />
+          <span style={{ display: 'block', width: '24px', height: '1.5px', background: textColor, transition: 'opacity 300ms ease', opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ display: 'block', width: '24px', height: '1.5px', background: textColor, transition: 'transform 300ms ease', transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }} />
         </button>
       </nav>
 
       {/* Mobile: полноэкранное меню */}
       <div
         ref={menuRef}
-        style={{
-          display: 'none', // GSAP управляет показом
-          position: 'fixed',
-          inset: 0,
-          background: 'var(--forest)',
-          zIndex: 999,
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          padding: 'clamp(80px, 12vh, 120px) clamp(24px, 6vw, 60px) clamp(40px, 6vh, 80px)',
-        }}
+        style={{ display: 'none', position: 'fixed', inset: 0, background: 'var(--forest)', zIndex: 50, /* --z-modal */ flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', padding: 'clamp(80px, 12vh, 120px) clamp(24px, 6vw, 60px) clamp(40px, 6vh, 80px)' }}
       >
-        {/* Большие ссылки */}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className="mobile-nav-link"
-              style={{
-                fontFamily: 'var(--font-hanken, sans-serif)',
-                fontSize: 'clamp(44px, 13vw, 72px)',
-                fontWeight: 700,
-                letterSpacing: '-0.03em',
-                lineHeight: 1.1,
-                textDecoration: 'none',
-                color: pathname === link.href ? 'var(--sage)' : 'var(--text-inverse)',
-                opacity: 0, // GSAP анимирует
-                display: 'block',
-              }}
+              style={{ fontFamily: 'var(--font-hanken, sans-serif)', fontSize: 'clamp(44px, 13vw, 72px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, textDecoration: 'none', color: cleanPath === link.href ? 'var(--sage)' : 'var(--text-inverse)', opacity: 0, display: 'block' }}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        {/* CTA + email внизу */}
         <div
           className="mobile-nav-link"
-          style={{
-            marginTop: '48px',
-            paddingTop: '28px',
-            borderTop: '1px solid rgba(244,237,230,0.1)',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            opacity: 0, // GSAP анимирует
-          }}
+          style={{ marginTop: '48px', paddingTop: '28px', borderTop: '1px solid rgba(244,237,230,0.1)', width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', opacity: 0 }}
         >
+          {/* Переключатель языка в мобильном меню */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '4px' }}>
+            {(['ru', 'en'] as const).map((loc) => (
+              <button
+                key={loc}
+                onClick={() => switchLocale(loc)}
+                style={{ background: locale === loc ? 'var(--sage)' : 'rgba(244,237,230,0.1)', border: 'none', borderRadius: '9999px', padding: '8px 20px', cursor: locale === loc ? 'default' : 'pointer', fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: 600, color: locale === loc ? 'var(--forest)' : 'rgba(244,237,230,0.5)', letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'background 200ms, color 200ms' }}
+              >
+                {loc.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <Link
             href="/contact"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '16px 40px',
-              background: 'var(--sage)',
-              color: 'var(--forest)',
-              borderRadius: '9999px',
-              fontFamily: 'var(--font-inter)',
-              fontSize: '15px',
-              fontWeight: 600,
-              letterSpacing: '0.02em',
-              textDecoration: 'none',
-              width: 'fit-content',
-            }}
+            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 40px', background: 'var(--sage)', color: 'var(--forest)', borderRadius: '9999px', fontFamily: 'var(--font-inter)', fontSize: '15px', fontWeight: 600, letterSpacing: '0.02em', textDecoration: 'none', width: 'fit-content' }}
           >
-            Начать проект
+            {t('cta')}
           </Link>
-          <a
-            href="mailto:contact@automaticalab.app"
-            style={{
-              fontFamily: 'var(--font-inter)',
-              fontSize: '13px',
-              color: 'var(--text-inverse)',
-              opacity: 0.4,
-              textDecoration: 'none',
-            }}
-          >
+          <a href="mailto:contact@automaticalab.app" style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', color: 'var(--text-inverse)', opacity: 0.4, textDecoration: 'none' }}>
             contact@automaticalab.app
           </a>
         </div>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 // NeuralMesh грузится только на клиенте — Three.js не совместим с SSR
 const NeuralMesh = dynamic(() => import('./NeuralMesh'), {
@@ -23,6 +24,7 @@ function isWebGLAvailable(): boolean {
 }
 
 export default function HeroSection() {
+  const t = useTranslations('hero')
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const video2Ref = useRef<HTMLVideoElement>(null)
@@ -139,18 +141,13 @@ export default function HeroSection() {
       const { gsap } = await import('gsap')
       const gctx = gsap.context(() => {
         // Скрываем сразу через gsap.set — надёжнее чем CSS
-        gsap.set('.hero-label', { autoAlpha: 0, y: 20 })
         gsap.set('.hero-char', { autoAlpha: 0, y: 48, rotateX: -30 })
         gsap.set('.hero-sub', { autoAlpha: 0, y: 20 })
         gsap.set('.hero-cta', { autoAlpha: 0, y: 16 })
 
         gsap.timeline({ delay: 0.15 })
-          .to('.hero-label',
-            { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-          )
           .to('.hero-char',
-            { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.55, ease: 'power3.out', stagger: 0.022 },
-            '-=0.2'
+            { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.55, ease: 'power3.out', stagger: 0.022 }
           )
           .to('.hero-sub',
             { autoAlpha: 0.85, y: 0, duration: 0.7, ease: 'power2.out' },
@@ -246,21 +243,6 @@ export default function HeroSection() {
           color: 'var(--text-inverse)',
         }}
       >
-        <p
-          className="hero-label"
-          style={{
-            fontFamily: 'var(--font-inter)',
-            fontSize: '13px',
-            fontWeight: 500,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--sage)',
-            marginBottom: '24px',
-          }}
-        >
-          АВТОМАТИЗАЦИЯ / 2026
-        </p>
-
         <h1 style={{ marginBottom: '32px', perspective: '600px' }}>
           {/* Строка 1 — разбита по буквам для stagger-анимации */}
           <span
@@ -273,8 +255,8 @@ export default function HeroSection() {
               letterSpacing: '-0.04em',
             }}
           >
-            {'Автоматизация'.split('').map((char, i) => (
-              <span key={i} className="hero-char" style={{ display: 'inline-block' }}>{char}</span>
+            {t('line1').split('').map((char, i) => (
+              <span key={i} className="hero-char" style={{ display: 'inline-block' }}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </span>
           {/* Строка 2 — курсив */}
@@ -289,8 +271,8 @@ export default function HeroSection() {
               fontStyle: 'italic',
             }}
           >
-            {'будущего'.split('').map((char, i) => (
-              <span key={i} className="hero-char" style={{ display: 'inline-block' }}>{char}</span>
+            {t('line2').split('').map((char, i) => (
+              <span key={i} className="hero-char" style={{ display: 'inline-block' }}>{char === ' ' ? '\u00A0' : char}</span>
             ))}
           </span>
         </h1>
@@ -305,7 +287,7 @@ export default function HeroSection() {
             marginBottom: '40px',
           }}
         >
-          Пока конкуренты думают — вы уже впереди
+          {t('subtitle')}
         </p>
 
         <div className="hero-cta" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -335,10 +317,12 @@ export default function HeroSection() {
               e.currentTarget.style.transform = 'scale(1)'
             }}
           >
-            Начать проект
+            {t('ctaPrimary')}
           </Link>
           <Link
-            href="/work"
+            href="https://kvakva.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -361,7 +345,7 @@ export default function HeroSection() {
               e.currentTarget.style.background = 'transparent'
             }}
           >
-            Смотреть работы →
+            {t('ctaSecondary')}
           </Link>
         </div>
       </div>

@@ -70,7 +70,7 @@ export default function AgentStatusWidget() {
           position: 'fixed',
           bottom: '28px',
           right: '28px',
-          zIndex: 9998,
+          zIndex: 30, /* --z-sticky */
           width: '52px',
           height: '52px',
           borderRadius: '50%',
@@ -116,7 +116,7 @@ export default function AgentStatusWidget() {
             position: 'fixed',
             bottom: '92px',
             right: '28px',
-            zIndex: 9997,
+            zIndex: 30, /* --z-sticky */
             width: '300px',
             background: 'var(--forest)',
             border: '1px solid rgba(143,163,108,0.2)',

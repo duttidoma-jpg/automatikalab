@@ -1,0 +1,290 @@
+{
+  "nav": {
+    "work": "Work",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Start a project",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  },
+  "hero": {
+    "line1": "Automation",
+    "line2": "of the future",
+    "subtitle": "While competitors think — you're already ahead",
+    "ctaPrimary": "Build a bot in 3 days",
+    "ctaSecondary": "See KvaKva — built in 1 day →"
+  },
+  "manifest": {
+    "label": "Our manifesto",
+    "heading1": "The future is not scary.",
+    "heading2": "We'll guide you through.",
+    "body": "Automation is not technology for its own sake. It's a competitive advantage that works right now, while others are still deciding."
+  },
+  "works": {
+    "label": "Selected work",
+    "heading1": "Projects that",
+    "heading2": "speak for themselves",
+    "allWorks": "All work →"
+  },
+  "finalCta": {
+    "heading1": "Ready to automate",
+    "heading2": "your business?",
+    "button": "Start a project"
+  },
+  "footer": {
+    "tagline": "We automate businesses with AI agents, Telegram bots and modern web solutions. While competitors think — you're already ahead.",
+    "sections": "Sections",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "manifesto": "The future is not scary. We'll guide you through."
+  },
+  "process": {
+    "label": "Process",
+    "heading": "How we work with you",
+    "scroll": "Scroll",
+    "steps": [
+      {
+        "num": "01",
+        "title": "Brief",
+        "text": "You tell us about the task. We ask the right questions — not as a formality, but to understand the core.",
+        "timing": "1–2 days",
+        "hint": "Call or chat — whatever works for you"
+      },
+      {
+        "num": "02",
+        "title": "Strategy",
+        "text": "We propose a solution, stack and timeline. No fluff — a concrete plan with clear outcomes.",
+        "timing": "1 day",
+        "hint": "You see everything before we start — no surprises"
+      },
+      {
+        "num": "03",
+        "title": "Development",
+        "text": "We write, build, test. We keep you in the loop at every stage. We work fast, without sacrificing quality.",
+        "timing": "2–4 weeks",
+        "hint": "Status updates throughout — no black boxes"
+      },
+      {
+        "num": "04",
+        "title": "Launch",
+        "text": "We deploy, configure, hand over. And stay close — supporting and growing after launch.",
+        "timing": "1 day",
+        "hint": "We don't say goodbye — we keep working"
+      }
+    ]
+  },
+  "tech": {
+    "label": "Technology",
+    "heading": "Battle-tested — four working stacks",
+    "subtext": "Every stack was built on real projects. We take what works and adapt it to your case — no rebuilding from scratch.",
+    "stacks": [
+      {
+        "title": "24/7 AI support bot",
+        "tools": ["Telegram", "n8n", "Claude"],
+        "desc": "Handles requests, answers 80% of FAQs, escalates complex cases to a human manager.",
+        "result": "80% of requests — no manager needed"
+      },
+      {
+        "title": "Lead qualification in chat",
+        "tools": ["Webhook", "OpenRouter", "AmoCRM"],
+        "desc": "Bot runs the dialogue → rule-based scoring → CRM card with notes for the manager.",
+        "result": "Lead → scoring → CRM card"
+      },
+      {
+        "title": "Content machine with approval",
+        "tools": ["n8n", "Claude", "Instagram"],
+        "desc": "Drafts posts, sends them to Telegram for signoff, publishes after approval.",
+        "result": "Draft → approval → published"
+      },
+      {
+        "title": "Production-ready site in 1–3 days",
+        "tools": ["Next.js", "Claude", "Vercel"],
+        "desc": "From brief to production. Landings, MVPs, portfolios — like KvaKva in a day.",
+        "result": "Brief → production in 1–3 days"
+      }
+    ]
+  },
+  "proof": {
+    "leftLabel": "Normally",
+    "rightLabel": "With us",
+    "leftMonths": "months of development",
+    "leftHours": "≈ 1,800+ hours of meetings",
+    "rightDays": "days",
+    "rightHours": "≈ 72 hours from brief to production",
+    "rightSubtitle": "from brief to live product",
+    "leftItems": [
+      "Team of 5+ people",
+      "From $5,000 and up",
+      "Months of approvals",
+      "Result — at the very end"
+    ],
+    "rightItems": [
+      "One specialist — full responsibility",
+      "Fixed price, no surprises",
+      "See progress every day",
+      "Result — in just 3 days"
+    ],
+    "kvakvaTitle": "KvaKva — live example",
+    "kvakvaSubtitle": "AI travel platform · built in 1 day →",
+    "oneDay": "1 day",
+    "lbDescription": "AI Travel platform for the CIS market — route planner, flights, hotels. From idea to production in one working day.",
+    "lbStats": [
+      { "label": "Development", "value": "1 day" },
+      { "label": "Team", "value": "1 person" },
+      { "label": "Status", "value": "Live" }
+    ],
+    "lbTask": "Task",
+    "lbTaskText": "AI travel planning service tailored to CIS realities: visas, maps, accessible routes and prices.",
+    "lbSolution": "Solution",
+    "lbSolutionText": "Next.js + Claude Haiku (OpenRouter). AI generates detailed itineraries based on budget, days and user preferences.",
+    "lbStack": "Stack",
+    "lbOpen": "Open site →"
+  },
+  "services": {
+    "label": "What we do",
+    "heading": "Services",
+    "discuss": "Discuss →",
+    "forWho": "For: {target}",
+    "ctaHeading1": "Need a consultation",
+    "ctaHeading2": "for your task?",
+    "ctaButton": "Discuss project",
+    "items": [
+      {
+        "number": "01",
+        "title": "Telegram bots",
+        "tagline": "Clients get answers — you sleep",
+        "description": "We automate lead intake, consultations and notifications. The bot works 24/7 without your involvement — clients get instant responses at any time.",
+        "outcomes": [
+          "Lead intake without a manager",
+          "Instant 24/7 responses",
+          "Status notifications",
+          "CRM and spreadsheet integration"
+        ],
+        "forWho": "Service, delivery, clinics"
+      },
+      {
+        "number": "02",
+        "title": "AI assistants",
+        "tagline": "A smart employee without a salary",
+        "description": "Assistants built on Claude and GPT-4. They understand context, process documents and respond like a real employee — just 10x faster.",
+        "outcomes": [
+          "Document and report analysis",
+          "Answers to team requests",
+          "Routine task automation",
+          "Trained on your business"
+        ],
+        "forWho": "Teams with high data volume"
+      },
+      {
+        "number": "03",
+        "title": "Automation",
+        "tagline": "10–30 hours a week — back to you",
+        "description": "We connect CRM, messengers, spreadsheets and services into one system. Manual work becomes automated processes — without your involvement.",
+        "outcomes": [
+          "CRM updates without manual entry",
+          "Reports generate themselves",
+          "Any service integration",
+          "Save 10–30 hours per week"
+        ],
+        "forWho": "Businesses with repetitive processes"
+      },
+      {
+        "number": "04",
+        "title": "Operating systems",
+        "tagline": "Your whole business — one system",
+        "description": "We build full operational infrastructure turnkey: CRM, communications, analytics and automation — in one system that works without you.",
+        "outcomes": [
+          "Single business control panel",
+          "Auto-reports and dashboards",
+          "Client communication on autopilot",
+          "Scales with your growth"
+        ],
+        "forWho": "Growing businesses, teams of 5+"
+      },
+      {
+        "number": "05",
+        "title": "Websites",
+        "tagline": "Awwwards-level design — real budget",
+        "description": "Corporate sites and landing pages with design that's remembered. Fast, responsive, with animations — and real leads as output.",
+        "outcomes": [
+          "Design to match your brand",
+          "Lighthouse 90+",
+          "Full mobile adaptation",
+          "Analytics and forms connected"
+        ],
+        "forWho": "Brands and ambitious companies"
+      }
+    ]
+  },
+  "about": {
+    "label": "About",
+    "heading1": "The future is not scary.",
+    "heading2": "We automate — you grow.",
+    "founderLabel": "Founder",
+    "founderName": "Vyacheslav Valeryevich",
+    "founderRole": "Founder & CEO · AutomatikaGroup · Kazakhstan",
+    "founderBio1": "AutomatikaLab is the flagship product of AutomatikaGroup. We specialize in business process automation, AI integration, web design and post-production.",
+    "founderBio2": "We work with small and medium businesses across CIS. We understand the market — we know what actually works, not just what looks good on paper. Based in Kazakhstan, clients across CIS.",
+    "tags": ["Automation", "AI / Neural networks", "Web design", "Post-production", "Kazakhstan"],
+    "philLabel": "Agent studio",
+    "philHeading1": "AutomatikaLab — a new kind of agency",
+    "philBody1": "We don't sell services — we build systems. Every project starts with understanding the business and ends with working automation that delivers results.",
+    "philBody2": "Tools are chosen for the task, not the other way around. We work with what delivers results today — and don't hold onto what was standard yesterday.",
+    "philBody3": "A broad stack — from automation and AI agents to web development and video production. Everything needed for results — under one roof.",
+    "agentLabel": "Agent studio",
+    "agentHeading1": "Humans set",
+    "agentHeading2": "the direction.",
+    "agentHeading3": "Agents do",
+    "agentHeading4": "the work.",
+    "agentBody": "We don't hire people for every task — we build agents. Every project goes through a system of specialized AI agents: from brief to deploy.",
+    "principles": [
+      {
+        "title": "Autonomously",
+        "desc": "Processes run without manual intervention — agents handle, verify and pass tasks forward on their own."
+      },
+      {
+        "title": "From day one",
+        "desc": "Automation is built into the process, not added at the end. Every project is built to run without us."
+      },
+      {
+        "title": "Inside and out",
+        "desc": "We automate ourselves the same way we automate our clients. This isn't marketing — it's how the studio works."
+      }
+    ]
+  },
+  "work": {
+    "label": "Our projects",
+    "heading": "Work",
+    "moreSoon": "More projects — coming soon",
+    "discussProject": "Discuss your project",
+    "openSite": "Open site →",
+    "projects": [
+      {
+        "title": "Atmosfera Foodcourt",
+        "category": "Website + Delivery automation",
+        "location": "Sochi",
+        "description": "A food court with four kitchens under one roof. We built the site with an online ordering system and automated order processing — rated 4.9 with 1700+ reviews."
+      },
+      {
+        "title": "KvaKva",
+        "category": "Travel platform",
+        "location": "CIS",
+        "description": "Everything a traveler needs in one place. Route planning, cheap flight search, hotel booking, event tours and an AI assistant to build the perfect trip."
+      },
+      {
+        "title": "Office Assistant",
+        "category": "AI assistant",
+        "location": "Corporate",
+        "description": "A universal AI system for working with data. Deployed in any business: analyzes documents, answers requests, automates routine. First case — corporate bank environment."
+      }
+    ]
+  },
+  "contact": {
+    "label": "Ready for the next step?",
+    "heading": "Let's start?",
+    "body": "Tell us about the task — we'll handle the rest",
+    "telegram": "Write on Telegram",
+    "max": "Write on Max"
+  }
+}

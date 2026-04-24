@@ -54,7 +54,7 @@ export default function PageTransition({
           position: 'fixed',
           inset: 0,
           background: 'var(--forest)',
-          zIndex: 9998,
+          zIndex: 50, /* --z-modal */
           pointerEvents: 'none',
           display: 'none',
         }}

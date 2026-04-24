@@ -105,7 +105,7 @@ export default function CustomCursor() {
           borderRadius: '50%',
           opacity: 0,
           pointerEvents: 'none',
-          zIndex: 99999,
+          zIndex: 100, /* --z-cursor */
           transition: 'width 250ms ease, height 250ms ease, opacity 200ms ease, mix-blend-mode 0ms',
           willChange: 'transform',
           display: 'flex',
@@ -142,7 +142,7 @@ export default function CustomCursor() {
           borderRadius: '50%',
           opacity: 0,
           pointerEvents: 'none',
-          zIndex: 99999,
+          zIndex: 100, /* --z-cursor */
           willChange: 'transform',
           transition: 'opacity 200ms ease',
         }}

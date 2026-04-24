@@ -1,12 +1,6 @@
 import type { Metadata } from 'next'
-import { Hanken_Grotesk, Inter } from 'next/font/google'
+import { Hanken_Grotesk, Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import CustomCursor from '@/components/CustomCursor'
-import PageTransition from '@/components/PageTransition'
-import SmoothScroll from '@/components/SmoothScroll'
-import AgentStatusWidget from '@/components/AgentStatusWidget'
 
 // Шрифт для заголовков — editorial grotesque характер
 const hanken = Hanken_Grotesk({
@@ -21,6 +15,14 @@ const inter = Inter({
   subsets: ['latin', 'cyrillic'],
   weight: ['400', '500', '600'],
   variable: '--font-inter',
+  display: 'swap',
+})
+
+// Моноширинный — для метрик, цифр, технических данных (v3 design system)
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -66,23 +68,11 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${hanken.variable} ${inter.variable}`}
+      className={`${hanken.variable} ${inter.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
     >
       <body>
-        {/* Плавный скролл — Lenis */}
-        <SmoothScroll />
-        {/* Кастомный курсор — рендерится поверх всего */}
-        <CustomCursor />
-        {/* Навигация — fixed, z-50 */}
-        <Nav />
-        {/* Контент страницы с переходами */}
-        <main>
-          <PageTransition>{children}</PageTransition>
-        </main>
-        {/* Футер */}
-        <Footer />
-        {/* Виджет статуса агентов — fixed bottom-right */}
-        <AgentStatusWidget />
+        {children}
       </body>
     </html>
   )
